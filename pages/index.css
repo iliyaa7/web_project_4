@@ -66,6 +66,7 @@
 
 .popup__close-button {
   transform: rotate(-90deg);
+  cursor: pointer;
   position: absolute;
   width: 40px;
   height: 40px;
@@ -77,6 +78,11 @@
   right: -40px;
   top: -40px;
   border: transparent;
+  transition: opacity .2s linear;
+}
+
+.popup__close-button:hover {
+  opacity: .6;
 }
 
 .popup__form-container {
@@ -131,6 +137,12 @@
   margin-top: 38px;
   border-radius: 2px;
   box-shadow: 0 0 0 0;
+  cursor: pointer;
+  transition: opacity .2s linear;
+}
+
+.popup__save-button:hover {
+  opacity: .6;
 }
 
 .profile {
@@ -169,6 +181,9 @@
   line-height: calc(48 / 42);
   color: #FFFFFF;
   margin: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .profile-info__button {
@@ -178,8 +193,12 @@
   max-height: 24px;
   margin: 15px 0 auto 18px;
   background-color: transparent;
+  cursor: pointer;
+  transition: opacity .2s linear;
+}
 
-
+.profile-info__button:hover {
+  opacity: .6;
 }
 
 .profile-info__image {
@@ -198,6 +217,9 @@
   line-height: calc(22 / 18);
   color: #FFFFFF;
   margin: 16px 0 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .plus-button {
@@ -212,12 +234,19 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  transition: opacity .2s linear;
+}
+
+.plus-button:hover {
+  opacity: .6;
 }
 
 .plus-button__image {
   max-height: 22px;
   max-width: 22px;
   margin: auto;
+  cursor: pointer;
 }
 
 .post-container {
@@ -269,11 +298,19 @@
 .post__button {
   background-color: transparent;
   border: none;
+  cursor: pointer;
 }
 
 .like-button {
   max-width: 21px;
+  cursor: pointer;
+  transition: opacity .2s linear;
 }
+
+.like-button:hover {
+  opacity: .6;
+}
+
 
 .footer {
   max-width: 100%;
@@ -310,6 +347,50 @@
 
   .page {
     max-width: 282px;
+  }
+
+
+
+  .popup__container {
+    width: 282px;
+    height: 322px;
+    margin-top: -161px;
+    margin-left: -141px;
+  }
+
+  .popup__close-button {
+    width: 23px;
+    height: 23px;;
+    right: 0px;
+    top: -41px;
+  }
+
+
+
+  .popup__form-container {
+    width: 238px;
+    margin: 25px auto 0;
+  }
+
+  .popup__form-heading {
+    margin: 0 auto 0 0;
+    font-size: 18px;
+    line-height: calc(22 / 18);
+  }
+
+  .popup__form-input {
+    margin-top: 76px;
+  }
+
+  .popup__form-input:last-of-type {
+    margin-top: 39px;
+  }
+
+  .popup__save-button {
+    height: 46px;
+    font-size: 14px;
+    line-height: calc(17 / 14);
+    margin-top: 38px;
   }
 
   .header__logo {
