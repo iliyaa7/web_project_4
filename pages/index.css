@@ -44,6 +44,10 @@
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   z-index: 2;
+  display: none;
+}
+
+.popup_opened {
   display: flex;
 }
 
