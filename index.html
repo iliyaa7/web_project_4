@@ -7,6 +7,19 @@
   <link rel="stylesheet" href="./pages/index.css">
 </head>
 <body class="body">
+
+  <div class="popup">
+    <form action="" class="popup__container">
+      <button type="button" class="popup__close-button"></button>
+      <div class="popup__form-container">
+        <h2 class="popup__form-heading">Edit profile</h2>
+        <input type="text" class="popup__form-input" placeholder="Name">
+        <input type="text" class="popup__form-input" placeholder="About me">
+        <button type="submit" class="popup__save-button">Save</button>
+      </div>
+    </form>
+  </div>
+
   <div class="page">
 
     <header class="header">
@@ -14,16 +27,6 @@
     </header>
 
     <main class="content">
-
-      <form action="" class="form">
-        <div class="form__container">
-          <h2 class="form__heading">Edit profile</h2>
-          <input type="text" class="form__input" placeholder="Name">
-          <input type="text" class="form__input" placeholder="About me">
-          <button type="submit" class="form__button">Save</button>
-        </div>
-      </form>
-
       <section class="profile">
         <img src="./images/profile-photo.png" alt="Your profile photo" class="profile__image">
         <div class="profile__rows">
@@ -107,5 +110,7 @@
       <p class="footer-copyright">© 2021 Around The U.S.</p>
     </footer>
   </div>
+
+  <script src="./java-script/sript.js"></script>
 </body>
 </html>
