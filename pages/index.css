@@ -23,6 +23,7 @@
   border-bottom: 1px solid rgba(84, 84, 84, .7);
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  margin: 0 auto;
 }
 
 .header__logo {
@@ -187,7 +188,17 @@
   margin: 0 auto 0 0;
 }
 
+@media only screen and (max-width: 1279px) and (min-width: 1024px){
+  .body {
+    max-width: 1024px;
+  }
+}
 
+@media only screen and (max-width: 1023px) and (min-width: 768px){
+  .body {
+    max-width: 768px;
+  }
+}
 
 
 @media only screen and (max-width: 767px){
