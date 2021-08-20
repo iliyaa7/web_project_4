@@ -1,0 +1,9 @@
+.post__like-button {
+  max-width: 21px;
+  cursor: pointer;
+  transition: opacity .2s linear;
+}
+
+.post__like-button:hover {
+  opacity: .6;
+}

@@ -1,16 +1,11 @@
-# Project 4: Around The U.S.
+# web_project_4 by Iliya Gomon
 
-### Overview
+This is my forth project at the yandex web development course.
 
-* Figma
-* Images
+In this project I built a responsive "Social Network" according to a layout/spec in the "Figama" designers tool.
+In this "Social Network" page i made a form that popus out when you press a button and and made one of the "Like" buttons change its color when activated. I made it possible via java script.
+I used varubels, objects, dom selector, function, conditions and event listeners in oreder to make all the above happen.
 
-**Figma**
+In the near future I am planning to make all the like buttons change thier color while active and add more java script features to page.
 
-* [Link to the project in Figma](https://www.figma.com/file/SurN1jaeEQIhuZEDMhmWWf/Sprint-4-Around-The-U.S.-desktop-mobile?node-id=0%3A1)
-
-**Images**
-
-The way you'll do this at work is by exporting images directly from Figma — we recommend doing that to practice more. Don't forget to optimize them [here](https://tinypng.com/), so your project loads faster. 
-
-Have fun with JavaScript!
+git hub pages link - https://iliyaa7.github.io/web_project_4/

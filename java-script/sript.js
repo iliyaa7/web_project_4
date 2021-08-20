@@ -1,4 +1,4 @@
-let popupButton = document.querySelector(".profile-info__button");
+let popupButton = document.querySelector(".profile__info-button");
 let popup = document.querySelector(".popup");
 
 function openClosePopup() {
@@ -14,24 +14,22 @@ closeButton.addEventListener("click", openClosePopup);
 
 let profileName = document.querySelector(".profile__title");
 let profileAbout = document.querySelector(".profile__subtitle");
-let saveButton = popup.querySelector(".popup__save-button");
+let formElement = document.querySelector(".popup__container");
+let saveButton = document.querySelector(".popup__save-button")
 
-
-function inputData() {
+function inputData(evt) {
+evt.preventDefault();
 let inputName = document.querySelector("#name");
 let inputAbout = document.querySelector("#about");
-console.log(inputName.value)
-console.log(inputAbout.value)
  profileName.textContent = inputName.value;
- console.log(profileName.textContent)
  profileAbout.textContent = inputAbout.value;
- console.log(profileAbout.textContent)
 };
 
-saveButton.addEventListener("click", inputData);
+formElement.addEventListener("submit", inputData);
 saveButton.addEventListener("click", openClosePopup);
 
-likeButton = document.querySelector(".like-button");
+
+likeButton = document.querySelector(".post__like-button");
 console.log(likeButton)
 let srcLength = likeButton.getAttribute("src");
 console.log(srcLength.length)
