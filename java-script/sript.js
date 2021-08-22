@@ -6,10 +6,11 @@ let profileName = document.querySelector(".profile__title");
 let profileAbout = document.querySelector(".profile__subtitle");
 let closeButton = popup.querySelector(".popup__close-button")
 
+inputName.value = profileName.textContent;
+inputAbout.value = profileAbout.textContent;
+
 function openClosePopup() {
   popup.classList.toggle("popup_opened")
-  inputName.value = profileName.textContent
-  inputAbout.value = profileAbout.textContent
 };
 
 popupButton.addEventListener("click", openClosePopup);
@@ -46,4 +47,6 @@ function activeLikeButton() {
 };
 
 likeButton.addEventListener("click", activeLikeButton);
+
+
 

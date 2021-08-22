@@ -1,7 +1,6 @@
 .popup__close-button {
   transform: rotate(-90deg);
   cursor: pointer;
-  position: absolute;
   width: 40px;
   height: 40px;
   background-image: url(../../../images/Close\ Icon.png);
@@ -9,10 +8,9 @@
   background-size: auto;
   background-position: center;
   background-color: transparent;
-  right: -40px;
-  top: -40px;
   border: transparent;
   transition: opacity .2s linear;
+  margin-left: 470px;
 }
 
 .popup__close-button:hover {
@@ -23,7 +21,7 @@
   .popup__close-button {
     width: 23px;
     height: 23px;
-    right: 0px;
-    top: -41px;
+    margin-bottom: 14px;
+    margin-left: 260px;
   }
 }
