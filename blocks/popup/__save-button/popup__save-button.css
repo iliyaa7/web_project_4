@@ -9,7 +9,7 @@
   line-height: calc(22 / 18);
   text-align: center;
   color: #FFFFFF;
-  margin-top: 38px;
+  margin: 38px 0 36px 0;
   border-radius: 2px;
   box-shadow: 0 0 0 0;
   cursor: pointer;
@@ -17,7 +17,7 @@
 }
 
 .popup__save-button:hover {
-  opacity: .6;
+  opacity: .8;
 }
 
 @media only screen and (max-width: 767px){
@@ -25,6 +25,5 @@
     height: 46px;
     font-size: 14px;
     line-height: calc(17 / 14);
-    margin-top: 38px;
   }
 }
