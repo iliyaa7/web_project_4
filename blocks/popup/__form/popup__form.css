@@ -1,4 +1,4 @@
-.popup__form-container {
+.popup__form {
   width: 358px;
   display: flex;
   flex-direction: column;
@@ -8,14 +8,14 @@
 }
 
 @media only screen and (max-width: 767px){
-  .popup__form-container {
+  .popup__form {
     width: 238px;
     margin: 25px auto 0;
   }
 }
 
 @media only screen and (max-width: 319px){
-  .popup__form-container {
+  .popup__form {
     max-width: 100%;
   }
 }
