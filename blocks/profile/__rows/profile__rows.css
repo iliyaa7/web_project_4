@@ -12,3 +12,9 @@
     margin: 26px auto 0;
   }
 }
+
+@media only screen and (max-width: 319px){
+  .profile__rows {
+    max-width: 100%;
+  }
+}

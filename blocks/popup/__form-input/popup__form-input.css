@@ -27,3 +27,9 @@
     margin-top: 39px;
   }
 }
+
+@media only screen and (max-width: 319px){
+  .popup__form-input {
+    max-width: 100%;
+  }
+}

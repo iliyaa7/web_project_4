@@ -13,3 +13,9 @@
     margin: 25px auto 0;
   }
 }
+
+@media only screen and (max-width: 319px){
+  .popup__form-container {
+    max-width: 100%;
+  }
+}

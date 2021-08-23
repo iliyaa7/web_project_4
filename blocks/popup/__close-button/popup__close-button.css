@@ -25,3 +25,12 @@
     margin-left: 260px;
   }
 }
+
+@media only screen and (max-width: 287px){
+  .popup__close-button {
+    width: 23px;
+    height: 23px;
+    margin-right: 0px;
+    margin-left: auto;
+  }
+}
