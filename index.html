@@ -8,19 +8,7 @@
 </head>
 <body class="body">
 
-  <div class="popup">
-    <button type="button" class="popup__close-button"></button>
-    <div class="popup__container">
-      <form action="#" class="popup__form" id="form__add-card" name="main-form">
-        <h2 class="popup__form-heading">New place</h2>
-        <input type="text" name="title" class="popup__form-input" placeholder="Title" id="title" value="">
-        <input type="text" name="link" class="popup__form-input" placeholder="Image link" id="link" value="">
-        <button type="submit" class="popup__save-button">Create</button>
-      </form>
-    </div>
-  </div>
-
-  <div class="popup">
+  <div class="popup" id="form">
     <button type="button" class="popup__close-button"></button>
     <div class="popup__container">
       <form action="#" class="popup__form" id="form__profile" name="main-form">
@@ -28,6 +16,18 @@
         <input type="text" name="full-name" class="popup__form-input" placeholder="Name" id="name" value="Jacques Cousteau">
         <input type="text" name="about" class="popup__form-input" placeholder="About me" id="about" value="Explorer">
         <button type="submit" class="popup__save-button">Save</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="popup" id="post">
+    <button type="button" class="popup__close-button"></button>
+    <div class="popup__container">
+      <form action="#" class="popup__form" id="form__post" name="main-form">
+        <h2 class="popup__form-heading">New place</h2>
+        <input type="text" name="title" class="popup__form-input" placeholder="Title" id="title" value="">
+        <input type="text" name="link" class="popup__form-input" placeholder="Image link" id="link" value="">
+        <button type="submit" class="popup__save-button">Create</button>
       </form>
     </div>
   </div>
@@ -45,12 +45,12 @@
           <div class="profile__top-row">
             <h1 class="profile__title">Iliya Gomon</h1>
             <button type="button" class="profile__info-button">
-              <img src="./images/batton-prof_edit.svg" alt="A photo of an edit button" class="profile__info-image">
+              <img src="./images/batton-prof_edit.svg" alt="A photo of an edit button" class="profile__info-image" id="profile__button">
             </button>
           </div>
           <h2 class="profile__subtitle">Guitar teacher</h2>
         </div>
-        <button type="button" class="profile__plus-button">
+        <button type="button" class="profile__plus-button" id="plus__button">
           <img src="./images/batton-plus.svg" alt="A photo of a plus button" class="profile__plus-image">
         </button>
       </section>

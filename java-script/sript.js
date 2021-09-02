@@ -1,40 +1,19 @@
-const popupButton = document.querySelector(".profile__info-button");
-const popup = document.querySelector(".popup");
+const formButton = document.querySelector(".profile__info-button");
+const popupForm = document.querySelector("#form");
+const popupPost = document.querySelector("#post");
 const inputName = document.querySelector("#name");
 const inputAbout = document.querySelector("#about");
+const inputTitle = document.querySelector("#title");
+const inputLink = document.querySelector("#link");
 const profileName = document.querySelector(".profile__title");
 const profileAbout = document.querySelector(".profile__subtitle");
-const closeButton = popup.querySelector(".popup__close-button")
-
-function openClosePopup() {
-  popup.classList.toggle("popup_opened");
-  if (popup.classList.contains("popup_opened")) {
-    inputName.value = profileName.textContent;
-    inputAbout.value = profileAbout.textContent;
-  }
-};
-
-
-
-
-const formElement = document.querySelector("#form__profile");
+const postTitle = document.querySelector(".profile__title");
+const postLink = document.querySelector(".profile__subtitle");
+const formProfileElement = document.querySelector("#form__profile");
+const formPostElement = document.querySelector("#form__post");
+const closeButton = document.querySelectorAll(".popup__close-button")
+const addPostButton = document.querySelector(".profile__plus-button")
 const saveButton = document.querySelector(".popup__save-button")
-
-function inputData(evt) {
-evt.preventDefault();
- profileName.textContent = inputName.value;
- profileAbout.textContent = inputAbout.value;
- popup.classList.remove("popup_opened");
-};
-
-
-
-
-popupButton.addEventListener("click", openClosePopup);
-closeButton.addEventListener("click", openClosePopup);
-formElement.addEventListener("submit", inputData);
-
-
 const cardConatiner = document.querySelector(".post-container");
 const initialCards = [
   {
@@ -63,28 +42,90 @@ const initialCards = [
   }
 ];
 
-function initialCardsAdder() {
+
+
+function cardsAdder(object) {
   const cardTemplate = document.querySelector("#card").content;
-  const cards = initialCards.map((card) => {
+  const cards = object.map((card) => {
     const cardElement = cardTemplate.querySelector(".post").cloneNode(true);
     cardElement.querySelector(".post__image").src = card.link;
     cardElement.querySelector(".post__heading").textContent = card.name;
+    console.log(card.link)
     return cardElement;
   });
-  console.log(cards)
   cardConatiner.prepend(...cards)
 }
 
-initialCardsAdder()
+cardsAdder(initialCards)
 
-function initialCardsAdder1() {
-  const cardTemplate = document.querySelector("#card").content;
-  const cards = cardTemplate.querySelector(".post").cloneNode(true);
-  cards.querySelector(".post__image").setAttribute("src", initialCards[1].link)
-  cards.querySelector(".post__heading").textContent = initialCards[1].name;
-  console.log(cards)
-  cardConatiner.prepend(cards)
+function addEventListenerByClass(elements, eventType, fn) {
+  elements.forEach((element) => {
+    element.addEventListener(eventType ,fn)
+  });
 }
+
+function closePopup(evt) {
+  const eventTarget = evt.target;
+  eventTarget.parentElement.classList.remove("popup_opened");
+};
+
+function openPopup(evt) {
+  const eventId = evt.target
+  if (eventId.id === "profile__button") {
+    popupForm.classList.add("popup_opened")
+    inputName.value = profileName.textContent;
+    inputAbout.value = profileAbout.textContent;
+  } else if (eventId.id === "plus__button") {
+    popupPost.classList.add("popup_opened")
+  }
+}
+
+function inputProfileData(evt) {
+  evt.preventDefault();
+   profileName.textContent = inputName.value;
+   profileAbout.textContent = inputAbout.value;
+   popupForm.classList.remove("popup_opened");
+  };
+
+function inputPostData(evt) {
+  evt.preventDefault();
+  const postInput = [{name: inputTitle.value, link: inputLink.value}]
+  cardsAdder(postInput);
+  popupPost.classList.remove("popup_opened");
+  };
+
+const likeButton = document.querySelectorAll(".post__button")
+
+function likeButtonFn(evt) {
+  const eventTarget = evt.target;
+  if (eventTarget.getAttribute("src") === "./images/like-button.svg") {
+    eventTarget.src = "./images/like-button_active.svg";
+    console.log(eventTarget.src)
+  } else if (eventTarget.getAttribute("src") === "./images/like-button_active.svg") {
+    eventTarget.src = "./images/like-button.svg";
+    console.log(eventTarget.src)
+  }
+}
+
+formButton.addEventListener("click", openPopup);
+addPostButton.addEventListener("click", openPopup);
+addEventListenerByClass(closeButton, "click", closePopup);
+addEventListenerByClass(likeButton, "click", likeButtonFn);
+formProfileElement.addEventListener("submit", inputProfileData);
+formPostElement.addEventListener("submit", inputPostData);
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
