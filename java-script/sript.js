@@ -43,20 +43,20 @@ const initialCards = [
 ];
 
 
-
-function cardsAdder(object) {
+const cardsAdder = function (object) {
   const cardTemplate = document.querySelector("#card").content;
   const cards = object.map((card) => {
     const cardElement = cardTemplate.querySelector(".post").cloneNode(true);
     cardElement.querySelector(".post__image").src = card.link;
     cardElement.querySelector(".post__heading").textContent = card.name;
-    console.log(card.link)
     return cardElement;
   });
   cardConatiner.prepend(...cards)
+  addEventListenerByClass(document.querySelectorAll(".post__button"), "click", likeButtonFn);
 }
 
 cardsAdder(initialCards)
+
 
 function addEventListenerByClass(elements, eventType, fn) {
   elements.forEach((element) => {
@@ -94,23 +94,21 @@ function inputPostData(evt) {
   popupPost.classList.remove("popup_opened");
   };
 
-const likeButton = document.querySelectorAll(".post__button")
+
+
 
 function likeButtonFn(evt) {
   const eventTarget = evt.target;
   if (eventTarget.getAttribute("src") === "./images/like-button.svg") {
     eventTarget.src = "./images/like-button_active.svg";
-    console.log(eventTarget.src)
   } else if (eventTarget.getAttribute("src") === "./images/like-button_active.svg") {
     eventTarget.src = "./images/like-button.svg";
-    console.log(eventTarget.src)
   }
 }
 
 formButton.addEventListener("click", openPopup);
 addPostButton.addEventListener("click", openPopup);
 addEventListenerByClass(closeButton, "click", closePopup);
-addEventListenerByClass(likeButton, "click", likeButtonFn);
 formProfileElement.addEventListener("submit", inputProfileData);
 formPostElement.addEventListener("submit", inputPostData);
 
