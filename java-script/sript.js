@@ -1,14 +1,13 @@
 const formButton = document.querySelector(".profile__info-button");
 const popupForm = document.querySelector("#form");
 const popupPost = document.querySelector("#post");
+const popupPicture = document.querySelector("#picture")
 const inputName = document.querySelector("#name");
 const inputAbout = document.querySelector("#about");
 const inputTitle = document.querySelector("#title");
 const inputLink = document.querySelector("#link");
 const profileName = document.querySelector(".profile__title");
 const profileAbout = document.querySelector(".profile__subtitle");
-const postTitle = document.querySelector(".profile__title");
-const postLink = document.querySelector(".profile__subtitle");
 const formProfileElement = document.querySelector("#form__profile");
 const formPostElement = document.querySelector("#form__post");
 const closeButton = document.querySelectorAll(".popup__close-button")
@@ -53,6 +52,8 @@ const cardsAdder = function (object) {
   });
   cardConatiner.prepend(...cards)
   addEventListenerByClass(document.querySelectorAll(".post__button"), "click", likeButtonFn);
+  addEventListenerByClass(document.querySelectorAll(".post__delete-button"), "click", deletePost);
+  addEventListenerByClass(document.querySelectorAll("#image__button"), "click", openPopup);
 }
 
 cardsAdder(initialCards)
@@ -70,14 +71,20 @@ function closePopup(evt) {
 };
 
 function openPopup(evt) {
-  const eventId = evt.target
-  if (eventId.id === "profile__button") {
-    popupForm.classList.add("popup_opened")
+  const eventTarget = evt.target
+  if (eventTarget.id === "profile__button") {
+    popupForm.classList.add("popup_opened");
     inputName.value = profileName.textContent;
     inputAbout.value = profileAbout.textContent;
-  } else if (eventId.id === "plus__button") {
+  } else if (eventTarget.id === "plus__button") {
     popupPost.classList.add("popup_opened")
+    inputTitle.value = "";
+    inputLink.value = "";
+  } else if (eventTarget.id === "image__button") {
+    console.log(eventTarget.id)
+    popupPicture.classList.add("popup_opened");
   }
+
 }
 
 function inputProfileData(evt) {
@@ -94,8 +101,10 @@ function inputPostData(evt) {
   popupPost.classList.remove("popup_opened");
   };
 
-
-
+function deletePost(evt) {
+  const eventTarget = evt.target;
+  eventTarget.parentElement.remove();
+}
 
 function likeButtonFn(evt) {
   const eventTarget = evt.target;

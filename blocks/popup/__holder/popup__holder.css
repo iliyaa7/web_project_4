@@ -1,0 +1,7 @@
+.popup__holder {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  max-width: 80%;
+  max-height: 90vh;
+}

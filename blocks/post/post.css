@@ -9,6 +9,7 @@
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   border-radius: 11px 11px 11px 11px;
+  position: relative;
 }
 
 @media only screen and (max-width: 767px){
