@@ -70,6 +70,9 @@ function addEventListenerByClass(elements, eventType, fn) {
 function closePopup(evt) {
   const eventTarget = evt.target;
   eventTarget.parentElement.classList.remove("popup_opened");
+  if (eventTarget.id === "close-button__picture") {
+    eventTarget.parentElement.parentElement.classList.remove("popup_opened");
+  }
 };
 
 function openPopup(evt) {

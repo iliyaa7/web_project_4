@@ -1,11 +1,12 @@
 # web_project_4 by Iliya Gomon
 
-This is my forth project at the yandex web development course.
+This is my fifth project at the yandex web development course.
 
-In this project I built a responsive "Social Network" according to a layout/spec in the "Figama" designers tool.
-In this "Social Network" page i made a form that popus out when you press a button and and made one of the "Like" buttons change its color when activated. I made it possible via java script.
-I used varubels, objects, dom selector, function, conditions and event listeners in oreder to make all the above happen.
+In this project I continued applying front-end js features to my responsive "Social Network" that i built on my privious project.
+This time I've added funcionalety to all the buttons in the page and made some new popups.
+Users can now add new posts and chose thier own pictures (via a link for the pic) and they can even delete the posts they dont want.
+I used varubels, objects, dom selector, function, conditions, arrays methods, event objects and event listeners in oreder to make all the above happen.
 
-In the near future I am planning to make all the like buttons change thier color while active and add more java script features to page.
+In the near future I am planning to make the buttons act smothly (some buttons are pressable only on thier image)
 
 git hub pages link - https://iliyaa7.github.io/web_project_4/
