@@ -8,6 +8,8 @@ const inputTitle = document.querySelector("#title");
 const inputLink = document.querySelector("#link");
 const profileName = document.querySelector(".profile__title");
 const profileAbout = document.querySelector(".profile__subtitle");
+const pictureCaption = document.querySelector(".popup__caption");
+const pictureLink = document.querySelector("#popup__image");
 const formProfileElement = document.querySelector("#form__profile");
 const formPostElement = document.querySelector("#form__post");
 const closeButton = document.querySelectorAll(".popup__close-button")
@@ -80,9 +82,10 @@ function openPopup(evt) {
     popupPost.classList.add("popup_opened")
     inputTitle.value = "";
     inputLink.value = "";
-  } else if (eventTarget.id === "image__button") {
-    console.log(eventTarget.id)
+  } else if (eventTarget.parentElement.id === "image__button") {
     popupPicture.classList.add("popup_opened");
+    pictureLink.src = eventTarget.src;
+    pictureCaption.textContent = eventTarget.parentElement.nextElementSibling.firstElementChild.textContent;
   }
 
 }
