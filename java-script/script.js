@@ -12,7 +12,9 @@ const pictureCaption = document.querySelector(".popup__caption");
 const pictureLink = document.querySelector("#popup__image");
 const formProfileElement = document.querySelector("#form__profile");
 const formPostElement = document.querySelector("#form__post");
-const closePopupsButtons = document.querySelectorAll(".popup__close-button")
+const formCloseButton = document.querySelector("#close__form");
+const postCloseButton = document.querySelector("#close__post");
+const pictureCloseButton = document.querySelector("#close__picture");
 const addPostButton = document.querySelector(".profile__plus-button")
 const saveButton = document.querySelector(".popup__save-button")
 const cardContainer = document.querySelector(".post-container");
@@ -75,13 +77,10 @@ function addEventListenerByClass(elements, eventType, fn) {
   });
 }
 
-function closePopup(evt) {
-  const eventTarget = evt.target;
-  eventTarget.parentElement.classList.remove("popup_opened");
-  if (eventTarget.id === "close-button__picture") {
-    eventTarget.parentElement.parentElement.classList.remove("popup_opened");
-  }
-};
+function closePopup(popup) {
+  popup.classList.remove("popup_opened");
+}
+
 
 function openPopup(evt) {
   const eventTarget = evt.target
@@ -106,14 +105,14 @@ function submitEditProfileForm(evt) {
   evt.preventDefault();
    profileName.textContent = inputName.value;
    profileAbout.textContent = inputAbout.value;
-   popupEditProfile.classList.remove("popup_opened");
+   closePopup(popupEditProfile);
   };
 
 function submitAddCardForm(evt) {
   evt.preventDefault();
   const postInput = [{name: inputTitle.value, link: inputLink.value}]
   addCard(postInput);
-  popupPost.classList.remove("popup_opened");
+  closePopup(popupPost);
   };
 
 function deletePost(evt) {
@@ -128,7 +127,9 @@ function toggleCardLike(evt) {
 
 formButton.addEventListener("click", openPopup);
 addPostButton.addEventListener("click", openPopup);
-addEventListenerByClass(closePopupsButtons, "click", closePopup);
+formCloseButton.addEventListener("click", closePopup);
+postCloseButton.addEventListener("click", closePopup);
+pictureCloseButton.addEventListener("click", closePopup);
 formProfileElement.addEventListener("submit", submitEditProfileForm);
 formPostElement.addEventListener("submit", submitAddCardForm);
 
