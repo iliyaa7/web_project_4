@@ -4,7 +4,6 @@
   cursor: pointer;
   max-width: 21px;
   min-height: 19px;
-  cursor: pointer;
   transition: opacity .2s linear;
   background-image: url(../../../images/like-button.svg);
   background-size: contain;
