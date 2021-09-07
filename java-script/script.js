@@ -63,7 +63,7 @@ function addCard(object) {
   cardContainer.prepend(...cards);
   addEventListenerByClass(document.querySelectorAll(".post__button"), "click", toggleCardLike);
   addEventListenerByClass(document.querySelectorAll(".post__delete-button"), "click", deletePost);
-  addEventListenerByClass(document.querySelectorAll("#image__button"), "click", openPopup);
+  addEventListenerByClass(document.querySelectorAll("#image__button"), "click", openPicturePopup);
 }
 
 
@@ -81,25 +81,30 @@ function closePopup(popup) {
   popup.classList.remove("popup_opened");
 }
 
-
-function openPopup(evt) {
-  const eventTarget = evt.target
-  if (eventTarget.id === "profile__button") {
-    popupEditProfile.classList.add("popup_opened");
-    inputName.value = profileName.textContent;
-    inputAbout.value = profileAbout.textContent;
-  } else if (eventTarget.id === "plus__button") {
-    popupPost.classList.add("popup_opened")
-    inputTitle.value = "";
-    inputLink.value = "";
-  } else if (eventTarget.parentElement.id === "image__button") {
-    popupPicture.classList.add("popup_opened");
-    pictureLink.src = eventTarget.src;
-    pictureLink.alt = "A picture of " + eventTarget.parentElement.nextElementSibling.firstElementChild.textContent;
-    pictureCaption.textContent = eventTarget.parentElement.nextElementSibling.firstElementChild.textContent;
-  }
-
+function openPopup(popup) {
+  popup.classList.add("popup_opened");
 }
+
+function openFormPopup() {
+  openPopup(popupEditProfile);
+  inputName.value = profileName.textContent;
+  inputAbout.value = profileAbout.textContent;
+}
+
+function openPostPopup() {
+  openPopup(popupPost);
+  inputTitle.value = "";
+  inputLink.value = "";
+}
+
+function openPicturePopup(evt) {
+  const eventTarget = evt.target;
+  openPopup(popupPicture);
+  pictureLink.src = eventTarget.src;
+  pictureLink.alt = "A picture of " + eventTarget.parentElement.nextElementSibling.firstElementChild.textContent;
+  pictureCaption.textContent = eventTarget.parentElement.nextElementSibling.firstElementChild.textContent;
+}
+
 
 function submitEditProfileForm(evt) {
   evt.preventDefault();
@@ -125,11 +130,11 @@ function toggleCardLike(evt) {
   eventTarget.classList.toggle("post__button_active")
 }
 
-formButton.addEventListener("click", openPopup);
-addPostButton.addEventListener("click", openPopup);
-formCloseButton.addEventListener("click", closePopup);
-postCloseButton.addEventListener("click", closePopup);
-pictureCloseButton.addEventListener("click", closePopup);
+formButton.addEventListener("click", openFormPopup);
+addPostButton.addEventListener("click", openPostPopup);
+formCloseButton.addEventListener("click", function() {closePopup(popupEditProfile)});
+postCloseButton.addEventListener("click", function() {closePopup(popupPost)});
+pictureCloseButton.addEventListener("click", function() {closePopup(popupPicture)});
 formProfileElement.addEventListener("submit", submitEditProfileForm);
 formPostElement.addEventListener("submit", submitAddCardForm);
 
