@@ -1,4 +1,4 @@
-const formButton = document.querySelector(".profile__info-button");
+const openEditProfileFormBtn = document.querySelector(".profile__info-button");
 const popupEditProfile = document.querySelector("#form");
 const popupPost = document.querySelector("#post");
 const popupPicture = document.querySelector("#picture")
@@ -52,6 +52,9 @@ const createCard = function (cardTitle, imageUrl) {
     cardElement.querySelector(".post__image").src = imageUrl;
     cardElement.querySelector(".post__image").alt = "A photo of " + cardTitle;
     cardElement.querySelector(".post__heading").textContent = cardTitle;
+    addEventListenerByClass(cardElement.querySelectorAll("#image__button"), "click", openPicturePopup);
+    addEventListenerByClass(cardElement.querySelectorAll(".post__button"), "click", toggleCardLike);
+    addEventListenerByClass(cardElement.querySelectorAll(".post__delete-button"), "click", deletePost);
     return cardElement;
 }
 
@@ -61,9 +64,6 @@ function addCard(object) {
     return cardsCreated;
   });
   cardContainer.prepend(...cards);
-  addEventListenerByClass(document.querySelectorAll(".post__button"), "click", toggleCardLike);
-  addEventListenerByClass(document.querySelectorAll(".post__delete-button"), "click", deletePost);
-  addEventListenerByClass(document.querySelectorAll("#image__button"), "click", openPicturePopup);
 }
 
 
@@ -85,7 +85,7 @@ function openPopup(popup) {
   popup.classList.add("popup_opened");
 }
 
-function openFormPopup() {
+function openEditProfileForm() {
   openPopup(popupEditProfile);
   inputName.value = profileName.textContent;
   inputAbout.value = profileAbout.textContent;
@@ -130,7 +130,7 @@ function toggleCardLike(evt) {
   eventTarget.classList.toggle("post__button_active")
 }
 
-formButton.addEventListener("click", openFormPopup);
+openEditProfileFormBtn.addEventListener("click", openEditProfileForm);
 addPostButton.addEventListener("click", openPostPopup);
 formCloseButton.addEventListener("click", function() {closePopup(popupEditProfile)});
 postCloseButton.addEventListener("click", function() {closePopup(popupPost)});
