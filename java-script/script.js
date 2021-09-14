@@ -66,8 +66,6 @@ function addCard(object) {
   cardContainer.prepend(...cards);
 }
 
-
-
 addCard(initialCards);
 
 
@@ -76,6 +74,13 @@ function addEventListenerByClass(elements, eventType, fn) {
     element.addEventListener(eventType ,fn)
   });
 }
+
+
+const showInputError = (formElemnt, inputElement, errorMessage) => {
+  const errorElement = formElemnt.querySelector(`#${inputElement.id}-error`)
+}
+
+
 
 function closePopup(popup) {
   popup.classList.remove("popup_opened");
