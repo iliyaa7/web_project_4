@@ -87,8 +87,8 @@ const showInputError = (formElement, inputElement, errorMessage) => {
 const hideInputError = (formElement, inputElement) => {
   const errorElement = formElement.querySelector(`#${inputElement.id}-error`)
   inputElement.classList.remove("popup__form-input_type_error");
-  errorElement.textContent = "";
   errorElement.classList.remove("popup__form-input-error_active");
+  errorElement.textContent = "";
 }
 
 const checkInputValidity = (formElement, inputElement) => {
@@ -99,11 +99,32 @@ const checkInputValidity = (formElement, inputElement) => {
   }
 };
 
+const hasInvalidInput = (inputList) =>{
+  return inputList.some((inputElement) => {
+    return !inputElement.validity.valid;
+  })
+};
+
+const toggleSubmitButton = (inputList, submmitButton) => {
+  if (hasInvalidInput(inputList)) {
+    submmitButton.classList.add("popup__save-button_disabled");
+    submmitButton.setAttribute("disabled", "")
+    console.log("da")
+  } else {
+    submmitButton.classList.remove("popup__save-button_disabled");
+    submmitButton.removeAttribute("disabled", "");
+    console.log("net")
+  }
+}
+
 const setEventListeners = (formElement) => {
+  const submmitButton = formElement.querySelector(".popup__save-button")
   const inputList = Array.from(formElement.querySelectorAll(".popup__form-input"));
+  toggleSubmitButton(inputList, submmitButton);
   inputList.forEach((inputElement) => {
     inputElement.addEventListener("input", function () {
       checkInputValidity(formElement, inputElement);
+      toggleSubmitButton(inputList, submmitButton);
     });
   });
 };
@@ -134,12 +155,14 @@ function openEditProfileForm() {
   openPopup(popupEditProfile);
   inputName.value = profileName.textContent;
   inputAbout.value = profileAbout.textContent;
+  enableValidation();
 }
 
 function openPostPopup() {
   openPopup(popupPost);
   inputTitle.value = "";
   inputLink.value = "";
+  enableValidation();
 }
 
 function openPicturePopup(evt) {
