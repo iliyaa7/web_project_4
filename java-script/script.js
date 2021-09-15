@@ -47,6 +47,7 @@ const initialCards = [
 const cardTemplate = document.querySelector("#card").content;
 
 
+
 const createCard = function (cardTitle, imageUrl) {
     const cardElement = cardTemplate.querySelector(".post").cloneNode(true);
     cardElement.querySelector(".post__image").src = imageUrl;
@@ -76,9 +77,48 @@ function addEventListenerByClass(elements, eventType, fn) {
 }
 
 
-const showInputError = (formElemnt, inputElement, errorMessage) => {
-  const errorElement = formElemnt.querySelector(`#${inputElement.id}-error`)
+const showInputError = (formElement, inputElement, errorMessage) => {
+  const errorElement = formElement.querySelector(`#${inputElement.id}-error`)
+  inputElement.classList.add("popup__form-input_type_error");
+  errorElement.textContent = errorMessage;
+  errorElement.classList.add("popup__form-input-error_active");
 }
+
+const hideInputError = (formElement, inputElement) => {
+  const errorElement = formElement.querySelector(`#${inputElement.id}-error`)
+  inputElement.classList.remove("popup__form-input_type_error");
+  errorElement.textContent = "";
+  errorElement.classList.remove("popup__form-input-error_active");
+}
+
+const checkInputValidity = (formElement, inputElement) => {
+  if(!inputElement.validity.valid) {
+    showInputError(formElement, inputElement, inputElement.validationMessage);
+  } else {
+    hideInputError(formElement, inputElement);
+  }
+};
+
+const setEventListeners = (formElement) => {
+  const inputList = Array.from(formElement.querySelectorAll(".popup__form-input"));
+  inputList.forEach((inputElement) => {
+    inputElement.addEventListener("input", function () {
+      checkInputValidity(formElement, inputElement);
+    });
+  });
+};
+
+const enableValidation = () => {
+  const formList = Array.from(document.querySelectorAll(".popup__form"));
+  formList.forEach((formElement) => {
+    formElement.addEventListener("submit", (evt) => {
+      evt.preventDefault();
+    });
+    setEventListeners(formElement);
+  });
+};
+
+enableValidation();
 
 
 

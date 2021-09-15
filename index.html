@@ -11,11 +11,12 @@
   <div class="popup" id="form">
     <button type="button" class="popup__close-button" id="close__form"></button>
     <div class="popup__container">
-      <form action="#" class="popup__form" id="form__profile" name="main-form" novalidate>
+      <form action="#" class="popup__form" id="form__profile" name="formProfile" novalidate>
         <h2 class="popup__form-heading">Edit profile</h2>
-        <input type="text" name="full-name" class="popup__form-input" placeholder="Name" id="name" value="Jacques Cousteau" minlength="2" maxlength="40" required>
-        <span class="popup__form-input-error" id="name-error">asd</span>
+        <input type="text" name="fullName" class="popup__form-input" placeholder="Name" id="name" value="Jacques Cousteau" minlength="2" maxlength="40" required>
+        <span class="popup__form-input-error" id="name-error"></span>
         <input type="text" name="about" class="popup__form-input" placeholder="About me" id="about" value="Explorer" minlength="2" maxlength="200" required>
+        <span class="popup__form-input-error" id="about-error"></span>
         <button type="submit" class="popup__save-button">Save</button>
       </form>
     </div>
@@ -24,7 +25,7 @@
   <div class="popup" id="post">
     <button type="button" class="popup__close-button" id="close__post"></button>
     <div class="popup__container">
-      <form action="#" class="popup__form" id="form__post" name="main-form">
+      <form action="#" class="popup__form" id="form__post" name="form-post">
         <h2 class="popup__form-heading">New place</h2>
         <input type="text" name="title" class="popup__form-input" placeholder="Title" id="title" value="">
         <input type="text" name="link" class="popup__form-input" placeholder="Image link" id="link" value="">
