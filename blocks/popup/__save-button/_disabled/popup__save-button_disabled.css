@@ -3,8 +3,5 @@
   border: 1px solid #000000;
   color: #000000;
   opacity: .2;
-}
-
-.popup__save-button:hover {
-  opacity: .2;
+  pointer-events: none;
 }
