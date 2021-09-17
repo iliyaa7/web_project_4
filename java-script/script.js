@@ -16,7 +16,6 @@ const formCloseButton = document.querySelector("#close__form");
 const postCloseButton = document.querySelector("#close__post");
 const pictureCloseButton = document.querySelector("#close__picture");
 const addPostButton = document.querySelector(".profile__plus-button")
-const saveButton = document.querySelector(".popup__save-button")
 const cardContainer = document.querySelector(".post-container");
 const initialCards = [
   {
@@ -53,21 +52,21 @@ const createCard = function (cardTitle, imageUrl) {
     cardElement.querySelector(".post__image").src = imageUrl;
     cardElement.querySelector(".post__image").alt = "A photo of " + cardTitle;
     cardElement.querySelector(".post__heading").textContent = cardTitle;
-    addEventListenerByClass(cardElement.querySelectorAll("#image__button"), "click", openPicturePopup);
     addEventListenerByClass(cardElement.querySelectorAll(".post__button"), "click", toggleCardLike);
     addEventListenerByClass(cardElement.querySelectorAll(".post__delete-button"), "click", deletePost);
     return cardElement;
 }
 
-function addCard(object) {
+function renderCards(object) {
   const cards = object.map((card) => {
-    const cardsCreated = createCard(card.name, card.link);
-    return cardsCreated;
+    const cardCreated = createCard(card.name, card.link);
+    return cardCreated;
   });
   cardContainer.prepend(...cards);
+  addEventListenerByClass(cards, "click", openPicturePopup);
 }
 
-addCard(initialCards);
+renderCards(initialCards);
 
 
 function addEventListenerByClass(elements, eventType, fn) {
@@ -78,52 +77,56 @@ function addEventListenerByClass(elements, eventType, fn) {
 
 function closePopup(popup) {
   popup.classList.remove("popup_opened");
+  document.removeEventListener("keydown", closeOpenedPopup);
+  document.removeEventListener("click", closePopupByOverlayClick);
 }
 
 function openPopup(popup) {
   popup.classList.add("popup_opened");
+  document.addEventListener("keydown", closeOpenedPopup);
+  document.addEventListener("click", closePopupByOverlayClick);
 }
 
 function openEditProfileForm() {
   openPopup(popupEditProfile);
   inputName.value = profileName.textContent;
   inputAbout.value = profileAbout.textContent;
-  enableValidation();
 }
 
 function openPostPopup() {
   openPopup(popupPost);
-  inputTitle.value = "";
-  inputLink.value = "";
-  enableValidation();
+  formPostElement.reset();
 }
 
 function openPicturePopup(evt) {
-  const eventTarget = evt.target;
-  openPopup(popupPicture);
-  pictureLink.src = eventTarget.src;
-  pictureLink.alt = "A picture of " + eventTarget.parentElement.nextElementSibling.firstElementChild.textContent;
-  pictureCaption.textContent = eventTarget.parentElement.nextElementSibling.firstElementChild.textContent;
+  if (evt.target.id === "image__button-image") {
+    openPopup(popupPicture);
+    pictureLink.src = evt.target.src;
+    pictureLink.alt = "A picture of " + evt.currentTarget.querySelector(".post__heading").textContent;
+    pictureCaption.textContent = evt.currentTarget.querySelector(".post__heading").textContent;
+  }
 }
 
 
 function submitEditProfileForm(evt) {
   evt.preventDefault();
-   profileName.textContent = inputName.value;
-   profileAbout.textContent = inputAbout.value;
-   closePopup(popupEditProfile);
-  };
+  profileName.textContent = inputName.value;
+  profileAbout.textContent = inputAbout.value;
+  closePopup(popupEditProfile);
+}
+
 
 function submitAddCardForm(evt) {
   evt.preventDefault();
   const postInput = [{name: inputTitle.value, link: inputLink.value}]
-  addCard(postInput);
+  renderCards(postInput);
   closePopup(popupPost);
   };
 
 function deletePost(evt) {
-  const eventTarget = evt.target;
-  eventTarget.parentElement.remove();
+  const cardElement = evt.target.parentElement;
+  cardElement.remove();
+  cardElement = null;
 }
 
 function toggleCardLike(evt) {
@@ -132,15 +135,18 @@ function toggleCardLike(evt) {
 }
 
 const openedPopupFinder = () => {
-  const popupList = Array.from(document.querySelectorAll(".popup"));
-  return popupList.find((popup) => {
-    return popup.classList.contains("popup_opened")
-  })
+  return document.querySelector(".popup_opened");
 };
 
 function closeOpenedPopup(evt) {
   if(evt.key === "Escape") {
     closePopup(openedPopupFinder());
+  }
+};
+
+function closePopupByOverlayClick(evt) {
+  if(evt.target.classList.contains("popup")) {
+    closePopup(evt.target);
   }
 };
 
@@ -151,19 +157,4 @@ postCloseButton.addEventListener("click", function() {closePopup(popupPost)});
 pictureCloseButton.addEventListener("click", function() {closePopup(popupPicture)});
 formProfileElement.addEventListener("submit", submitEditProfileForm);
 formPostElement.addEventListener("submit", submitAddCardForm);
-addEventListenerByClass(document.querySelectorAll(".popup"), "click", function (evt) {closePopup(evt.target)});
-document.addEventListener("keydown", closeOpenedPopup);
-
-
-
-
-
-
-
-
-
-
-
-
-
 
