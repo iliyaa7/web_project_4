@@ -1,3 +1,6 @@
+import Card from "./Card.js"
+import FormValidator from "./FormValidator.js"
+
 const openEditProfileFormBtn = document.querySelector(".profile__info-button");
 const popupEditProfile = document.querySelector("#form");
 const popupPost = document.querySelector("#post");
@@ -43,51 +46,18 @@ const initialCards = [
     link: "https://code.s3.yandex.net/web-code/lago.jpg"
   }
 ];
+const editForm = document.querySelector("#form__profile");
+const postForm = document.querySelector("#form__post");
+const settings = {
+  inputSelector: ".popup__form-input",
+  submitButtonSelector: ".popup__save-button",
+  inactiveButtonClass: "popup__save-button_disabled",
+  inputErrorClass: "popup__form-input_type_error",
+  errorClass: "popup__form-input-error_active"
+};
 
 
-class Card {
-  constructor(cardTitle, cardUrl, templateSelector) {
-    this._cardTitle = cardTitle;
-    this._cardUrl = cardUrl;
-    this._templateSelector = templateSelector;
-  }
- 
-  _getTemplate() {
-    const cardElement = document
-    .querySelector(this._templateSelector)
-    .content
-    .querySelector(".post")
-    .cloneNode(true);
 
-    return cardElement;
-  }
-
-  createCard() {
-    this._element = this._getTemplate();
-    this._element.querySelector(".post__heading").textContent = this._cardTitle;
-    this._element.querySelector(".post__image").alt = "A photo of " + this._cardTitle;
-    this._element.querySelector(".post__image").src = this._cardUrl;
-    this._setEventListeners();
-    return this._element;
-  }
-
-  _setEventListeners() {
-    this._element.querySelector(".post__delete-button").addEventListener("click", () => {
-      this._handleDeletePost();
-    });
-    this._element.querySelector(".post__button").addEventListener("click", () => {
-      this._handleToggleCardLike();
-    }); 
-  }
-
-  _handleToggleCardLike() {
-    this._element.querySelector(".post__button").classList.toggle("post__button_active")
-  }
-
-  _handleDeletePost(evt) {
-    this._element.remove();
-  }  
-}
 
 function renderCards(cardsObject) {
   const cards = cardsObject.map((card) => {
@@ -99,6 +69,14 @@ function renderCards(cardsObject) {
 }
 
 renderCards(initialCards);
+
+
+
+const editFormValidator = new FormValidator(settings, editForm);
+const postFormValidator = new FormValidator(settings, postForm);
+
+editFormValidator.enableValidation();
+postFormValidator.enableValidation();
 
 
 function addEventListenerByClass(elements, eventType, fn) {
