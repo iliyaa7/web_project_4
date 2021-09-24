@@ -133,17 +133,6 @@ function submitAddCardForm(evt) {
   closePopup(popupPost);
   };
 
-function deletePost(evt) {
-  const cardElement = evt.target.parentElement;
-  cardElement.remove();
-  cardElement = null;
-} 
-
-function toggleCardLike(evt) {
-  const eventTarget = evt.target;
-  eventTarget.classList.toggle("post__button_active")
-}
-
 const openedPopupFinder = () => {
   return document.querySelector(".popup_opened");
 };
