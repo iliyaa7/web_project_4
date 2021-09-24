@@ -43,24 +43,56 @@ const initialCards = [
     link: "https://code.s3.yandex.net/web-code/lago.jpg"
   }
 ];
-const cardTemplate = document.querySelector("#card").content;
 
 
+class Card {
+  constructor(cardTitle, cardUrl, templateSelector) {
+    this._cardTitle = cardTitle;
+    this._cardUrl = cardUrl;
+    this._templateSelector = templateSelector;
+  }
+ 
+  _getTemplate() {
+    const cardElement = document
+    .querySelector(this._templateSelector)
+    .content
+    .querySelector(".post")
+    .cloneNode(true);
 
-const createCard = function (cardTitle, imageUrl) {
-    const cardElement = cardTemplate.querySelector(".post").cloneNode(true);
-    cardElement.querySelector(".post__image").src = imageUrl;
-    cardElement.querySelector(".post__image").alt = "A photo of " + cardTitle;
-    cardElement.querySelector(".post__heading").textContent = cardTitle;
-    addEventListenerByClass(cardElement.querySelectorAll(".post__button"), "click", toggleCardLike);
-    addEventListenerByClass(cardElement.querySelectorAll(".post__delete-button"), "click", deletePost);
     return cardElement;
+  }
+
+  createCard() {
+    this._element = this._getTemplate();
+    this._element.querySelector(".post__heading").textContent = this._cardTitle;
+    this._element.querySelector(".post__image").alt = "A photo of " + this._cardTitle;
+    this._element.querySelector(".post__image").src = this._cardUrl;
+    this._setEventListeners();
+    return this._element;
+  }
+
+  _setEventListeners() {
+    this._element.querySelector(".post__delete-button").addEventListener("click", () => {
+      this._handleDeletePost();
+    });
+    this._element.querySelector(".post__button").addEventListener("click", () => {
+      this._handleToggleCardLike();
+    }); 
+  }
+
+  _handleToggleCardLike() {
+    this._element.querySelector(".post__button").classList.toggle("post__button_active")
+  }
+
+  _handleDeletePost(evt) {
+    this._element.remove();
+  }  
 }
 
-function renderCards(object) {
-  const cards = object.map((card) => {
-    const cardCreated = createCard(card.name, card.link);
-    return cardCreated;
+function renderCards(cardsObject) {
+  const cards = cardsObject.map((card) => {
+    const cardCreated = new Card(card.name, card.link, "#card");
+    return cardCreated.createCard();
   });
   cardContainer.prepend(...cards);
   addEventListenerByClass(cards, "click", openPicturePopup);
@@ -127,7 +159,7 @@ function deletePost(evt) {
   const cardElement = evt.target.parentElement;
   cardElement.remove();
   cardElement = null;
-}
+} 
 
 function toggleCardLike(evt) {
   const eventTarget = evt.target;
