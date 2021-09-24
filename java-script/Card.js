@@ -1,8 +1,9 @@
 export default class Card {
-    constructor(cardTitle, cardUrl, templateSelector) {
-      this._cardTitle = cardTitle;
-      this._cardUrl = cardUrl;
+    constructor(cardData, templateSelector, { handleCardClick }) {
+      this._cardTitle = cardData.name;
+      this._cardUrl = cardData.link;
       this._templateSelector = templateSelector;
+      this._handleCardClick = handleCardClick;
     }
    
     _getTemplate() {
@@ -30,6 +31,9 @@ export default class Card {
       });
       this._element.querySelector(".post__button").addEventListener("click", () => {
         this._handleToggleCardLike();
+      }); 
+      this._element.querySelector(".post__image-button").addEventListener("click", () => {
+        this._handleCardClick(this._cardTitle, this._cardUrl);
       }); 
     }
   
