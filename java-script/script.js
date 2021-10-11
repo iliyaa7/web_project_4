@@ -1,6 +1,7 @@
 import Card from "./Card.js"
 import FormValidator from "./FormValidator.js"
 import Section from "./Section.js";
+import Popup from "./Popup.js";
 
 const openEditProfileFormBtn = document.querySelector(".profile__info-button");
 const popupEditProfile = document.querySelector("#form");
@@ -164,7 +165,7 @@ function submitAddCardForm(evt) {
   evt.preventDefault();
   const renderedFormCard = new Section(
     {
-      items: [{name: inputTitle.value, link: inputLink.value}],
+      items: [{ name: inputTitle.value, link: inputLink.value }],
       renderer: (cardData) => {
         const postCard = new Card(cardData, "#card", {
           handleCardClick: openPicturePopup,
@@ -177,17 +178,17 @@ function submitAddCardForm(evt) {
   );
   renderedFormCard.renderItems();
   closePopup(popupPost);
-  };
+};
 
 
 
 
 
 
-
-openEditProfileFormBtn.addEventListener("click", openEditProfileForm);
+const popupEditProfiles = new Popup("#form")
+openEditProfileFormBtn.addEventListener("click", function() {popupEditProfiles.open()});
 addPostButton.addEventListener("click", openPostPopup);
-formCloseButton.addEventListener("click", function() {closePopup(popupEditProfile)});
+
 postCloseButton.addEventListener("click", function() {closePopup(popupPost)});
 pictureCloseButton.addEventListener("click", function() {closePopup(popupPicture)});
 formProfileElement.addEventListener("submit", submitEditProfileForm);
