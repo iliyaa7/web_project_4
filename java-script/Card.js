@@ -5,17 +5,17 @@ export default class Card {
       this._templateSelector = templateSelector;
       this._handleCardClick = handleCardClick;
     }
-   
+
     _getTemplate() {
       const cardElement = document
       .querySelector(this._templateSelector)
       .content
       .querySelector(".post")
       .cloneNode(true);
-  
+
       return cardElement;
     }
-  
+
     createCard() {
       this._element = this._getTemplate();
       this._element.querySelector(".post__heading").textContent = this._cardTitle;
@@ -24,24 +24,24 @@ export default class Card {
       this._setEventListeners();
       return this._element;
     }
-  
+
     _setEventListeners() {
       this._element.querySelector(".post__delete-button").addEventListener("click", () => {
         this._handleDeletePost();
       });
       this._element.querySelector(".post__button").addEventListener("click", () => {
         this._handleToggleCardLike();
-      }); 
+      });
       this._element.querySelector(".post__image-button").addEventListener("click", () => {
         this._handleCardClick(this._cardTitle, this._cardUrl);
-      }); 
+      });
     }
-  
+
     _handleToggleCardLike() {
       this._element.querySelector(".post__button").classList.toggle("post__button_active")
     }
-  
-    _handleDeletePost(evt) {
+
+    _handleDeletePost() {
       this._element.remove();
-    }  
+    }
   }

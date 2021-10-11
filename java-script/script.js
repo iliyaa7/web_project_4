@@ -1,5 +1,6 @@
 import Card from "./Card.js"
 import FormValidator from "./FormValidator.js"
+import Section from "./Section.js";
 
 const openEditProfileFormBtn = document.querySelector(".profile__info-button");
 const popupEditProfile = document.querySelector("#form");
@@ -19,7 +20,6 @@ const formCloseButton = document.querySelector("#close__form");
 const postCloseButton = document.querySelector("#close__post");
 const pictureCloseButton = document.querySelector("#close__picture");
 const addPostButton = document.querySelector(".profile__plus-button")
-const cardContainer = document.querySelector(".post-container");
 const initialCards = [
  {
    name: "Yosemite Valley",
@@ -59,17 +59,24 @@ const settings = {
 
 
 
+const renderedInitialCards = new Section(
+  {
+    items: initialCards,
+    renderer: (cardData) => {
+      const postCard = new Card(cardData, "#card", {
+        handleCardClick: openPicturePopup,
+      });
+      const cardCreated = postCard.createCard();
+      renderedInitialCards.addItem(cardCreated);
+    },
+  },
+  ".post-container"
+);
+
+renderedInitialCards.renderItems();
 
 
-function renderCards(cardList) {
-  const cards = cardList.map((cardData) => {
-    const cardCreated = new Card(cardData, "#card", { handleCardClick: openPicturePopup });
-    return cardCreated.createCard();
-  });
-  cardContainer.prepend(...cards);
-}
 
-renderCards(initialCards);
 
 
 
@@ -119,7 +126,7 @@ function openPicturePopup(name, link) {
   openPopup(popupPicture);
   pictureLink.src = link;
   pictureLink.alt = "A picture of " + name;
-  pictureCaption.textContent = name;    
+  pictureCaption.textContent = name;
 }
 
 
@@ -152,10 +159,23 @@ function submitEditProfileForm(evt) {
 }
 
 
+
 function submitAddCardForm(evt) {
   evt.preventDefault();
-  const postInput = [{name: inputTitle.value, link: inputLink.value}]
-  renderCards(postInput);
+  const renderedFormCard = new Section(
+    {
+      items: [{name: inputTitle.value, link: inputLink.value}],
+      renderer: (cardData) => {
+        const postCard = new Card(cardData, "#card", {
+          handleCardClick: openPicturePopup,
+        });
+        const cardCreated = postCard.createCard();
+        renderedFormCard.addItem(cardCreated);
+      },
+    },
+    ".post-container"
+  );
+  renderedFormCard.renderItems();
   closePopup(popupPost);
   };
 
