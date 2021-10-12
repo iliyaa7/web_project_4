@@ -3,23 +3,12 @@ import FormValidator from "./FormValidator.js"
 import Section from "./Section.js";
 import Popup from "./Popup.js";
 import PopupWithImage from "./PopupWithImage.js";
+import PopupWithForm from "./PopupWithForm.js";
 
 const openEditProfileFormBtn = document.querySelector(".profile__info-button");
-const popupEditProfile = document.querySelector("#form");
-const popupPost = document.querySelector("#post");
-const popupPicture = document.querySelector("#picture")
-const inputName = document.querySelector("#name");
-const inputAbout = document.querySelector("#about");
+const openAddCardFromBtn = document.querySelector(".profile__plus-button");
 const inputTitle = document.querySelector("#title");
 const inputLink = document.querySelector("#link");
-const profileName = document.querySelector(".profile__title");
-const profileAbout = document.querySelector(".profile__subtitle");
-const formProfileElement = document.querySelector("#form__profile");
-const formPostElement = document.querySelector("#form__post");
-const formCloseButton = document.querySelector("#close__form");
-const postCloseButton = document.querySelector("#close__post");
-const pictureCloseButton = document.querySelector("#close__picture");
-const addPostButton = document.querySelector(".profile__plus-button")
 const initialCards = [
  {
    name: "Yosemite Valley",
@@ -82,11 +71,6 @@ renderedInitialCards.renderItems();
 
 
 
-
-
-
-
-
 const editFormValidator = new FormValidator(settings, editForm);
 const postFormValidator = new FormValidator(settings, postForm);
 
@@ -96,72 +80,10 @@ postFormValidator.enableValidation();
 
 
 
-
-
-
-
-
-
-function closePopup(popup) {
-  popup.classList.remove("popup_opened");
-  document.removeEventListener("keydown", closeOpenedPopup);
-  document.removeEventListener("click", closePopupByOverlayClick);
-}
-
-function openPopup(popup) {
-  popup.classList.add("popup_opened");
-  document.addEventListener("keydown", closeOpenedPopup);
-  document.addEventListener("click", closePopupByOverlayClick);
-}
-
-function openEditProfileForm() {
-  openPopup(popupEditProfile);
-  inputName.value = profileName.textContent;
-  inputAbout.value = profileAbout.textContent;
-}
-
-function openPostPopup() {
-  openPopup(popupPost);
-  formPostElement.reset();
-}
-
-
-
-const openedPopupFinder = () => {
-  return document.querySelector(".popup_opened");
-};
-
-function closeOpenedPopup(evt) {
-  if(evt.key === "Escape") {
-    closePopup(openedPopupFinder());
-  }
-};
-
-function closePopupByOverlayClick(evt) {
-  if(evt.target.classList.contains("popup")) {
-    closePopup(evt.target);
-  }
-};
-
-
-
-
-
-
-function submitEditProfileForm(evt) {
-  evt.preventDefault();
-  profileName.textContent = inputName.value;
-  profileAbout.textContent = inputAbout.value;
-  closePopup(popupEditProfile);
-}
-
-
-
-function submitAddCardForm(evt) {
-  evt.preventDefault();
+const submitAddCardForm = () => {
   const renderedFormCard = new Section(
     {
-      items: [{ name: inputTitle.value, link: inputLink.value }],
+      items: [{ name: document.querySelector("#title").value, link: document.querySelector("#link").value }],
       renderer: (cardData) => {
         const postCard = new Card(cardData, "#card", {
           handleCardClick: openPicturePopupHendler,
@@ -173,20 +95,17 @@ function submitAddCardForm(evt) {
     ".post-container"
   );
   renderedFormCard.renderItems();
-  closePopup(popupPost);
 };
 
 
 
 
 
-
 const popupEditProfiles = new Popup("#form")
-openEditProfileFormBtn.addEventListener("click", function() {popupEditProfiles.open()});
-addPostButton.addEventListener("click", openPostPopup);
+const popupAddCard = new PopupWithForm("#post", submitAddCardForm);
 
-postCloseButton.addEventListener("click", function() {closePopup(popupPost)});
-pictureCloseButton.addEventListener("click", function() {closePopup(popupPicture)});
-formProfileElement.addEventListener("submit", submitEditProfileForm);
-formPostElement.addEventListener("submit", submitAddCardForm);
+
+openEditProfileFormBtn.addEventListener("click", function() {popupEditProfiles.open()});
+openAddCardFromBtn.addEventListener("click", function() {popupAddCard.open()});
+
 
