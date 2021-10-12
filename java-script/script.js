@@ -5,10 +5,15 @@ import Popup from "./Popup.js";
 import PopupWithImage from "./PopupWithImage.js";
 import PopupWithForm from "./PopupWithForm.js";
 
+
+
+
+
+
+
+
 const openEditProfileFormBtn = document.querySelector(".profile__info-button");
 const openAddCardFromBtn = document.querySelector(".profile__plus-button");
-const inputTitle = document.querySelector("#title");
-const inputLink = document.querySelector("#link");
 const initialCards = [
  {
    name: "Yosemite Valley",
@@ -45,11 +50,32 @@ const settings = {
  errorClass: "popup__form-input-error_active"
 };
 
-const openPicturePopup = new PopupWithImage("#picture")
+
+
+
+
+
+
+
+
+// declaring the the proper popup class.
+// the .open() method of the class will open a popup -
+// - that will be generated from the card data.
+// the method will be added via a hendler -
+// - for each card that will be renderd to the page.
+
+const openPicturePopup = new PopupWithImage("#picture");
+openPicturePopup.setEventListeners();
 const openPicturePopupHendler = (name, link) => {
   openPicturePopup.open(name, link);
 }
 
+
+
+
+
+
+// rendering the initial cards of the page
 
 const renderedInitialCards = new Section(
   {
@@ -71,6 +97,8 @@ renderedInitialCards.renderItems();
 
 
 
+
+// form valiadation:
 const editFormValidator = new FormValidator(settings, editForm);
 const postFormValidator = new FormValidator(settings, postForm);
 
@@ -80,11 +108,22 @@ postFormValidator.enableValidation();
 
 
 
-const submitAddCardForm = () => {
+
+
+
+
+// a hendler that will add a card.
+// the card will be generated -
+// - from the data that in the input fields of the form.
+// - the hendler is attached to the form as a hendler -
+// - of a "submmit" event.
+
+const submitAddCardForm = (cardDataArray) => {
   const renderedFormCard = new Section(
     {
-      items: [{ name: document.querySelector("#title").value, link: document.querySelector("#link").value }],
+      items: [cardDataArray],
       renderer: (cardData) => {
+        console.log(cardData)
         const postCard = new Card(cardData, "#card", {
           handleCardClick: openPicturePopupHendler,
         });
@@ -103,7 +142,7 @@ const submitAddCardForm = () => {
 
 const popupEditProfiles = new Popup("#form")
 const popupAddCard = new PopupWithForm("#post", submitAddCardForm);
-
+popupAddCard.setEventListeners();
 
 openEditProfileFormBtn.addEventListener("click", function() {popupEditProfiles.open()});
 openAddCardFromBtn.addEventListener("click", function() {popupAddCard.open()});
