@@ -1,3 +1,8 @@
+import logoImg from "../../images/Logo.svg";
+import profileImg from "../../images/profile-photo.png"
+import profileButtonImg from "../../images/batton-prof_edit.svg"
+import plusButtonImg from "../../images/batton-plus.svg"
+
 export const openEditProfileFormBtn = document.querySelector(
   ".profile__info-button"
 );
@@ -41,3 +46,20 @@ export const settings = {
   inputErrorClass: "popup__form-input_type_error",
   errorClass: "popup__form-input-error_active",
 };
+
+//setting images to the html page -
+// - via the import that was made at the top of the page
+
+const logoImage = document.querySelector("#logo-image");
+logoImage.src = logoImg;
+
+const profileImage = document.querySelector("#profile-image");
+profileImage.src = profileImg;
+
+const profileButtonImage = document.querySelector("#profile-button");
+profileButtonImage.src = profileButtonImg;
+
+const plusButtonImage = document.querySelector("#plus-button");
+plusButtonImage.src = plusButtonImg;
+
+
