@@ -40,7 +40,7 @@
     <div class="popup__grid">
       <button type="button" class="popup__close-button popup__close-button_type_image" id="close__picture"></button>
       <div class="popup__holder">
-        <img  src="https://code.s3.yandex.net/web-code/yosemite.jpg" alt="a photo that you uploaded" class="popup__image" id="popup__image">
+        <img src="https://code.s3.yandex.net/web-code/yosemite.jpg" alt="a photo that you uploaded" class="popup__image" id="popup__image">
         <p class="popup__caption"></p>
       </div>
     </div>
@@ -49,23 +49,23 @@
   <div class="page">
 
     <header class="header">
-      <img  id="logo-image" alt="A photo of the logo" class="header__logo">
+      <img src="<%= require('./images/Logo.svg')%>" id="logo-image" alt="A photo of the logo" class="header__logo">
     </header>
 
     <main class="content">
       <section class="profile">
-        <img id="profile-image"  alt="Your profile photo" class="profile__image">
+        <img src="<%= require('./images/profile-photo.png')%>" id="profile-image"  alt="Your profile photo" class="profile__image">
         <div class="profile__rows">
           <div class="profile__top-row">
             <h1 class="profile__title">Iliya Gomon</h1>
             <button type="button" class="profile__info-button">
-              <img  id="profile-button" alt="A photo of an edit button" class="profile__info-image">
+              <img src="<%= require('./images/batton-prof_edit.svg')%>" id="profile-button" alt="A photo of an edit button" class="profile__info-image">
             </button>
           </div>
           <h2 class="profile__subtitle">Guitar teacher</h2>
         </div>
         <button type="button" class="profile__plus-button" id="plus__button">
-          <img  id="plus-button" alt="A photo of a plus button" class="profile__plus-image">
+          <img src="<%= require('./images/batton-plus.svg')%>" id="plus-button" alt="A photo of a plus button" class="profile__plus-image">
         </button>
       </section>
 
