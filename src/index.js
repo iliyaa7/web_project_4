@@ -1,10 +1,11 @@
-import Card from "../components/Card.js";
-import FormValidator from "../components/FormValidator.js";
-import Section from "../components/Section.js";
-import Popup from "../components/Popup.js";
-import PopupWithImage from "../components/PopupWithImage.js";
-import PopupWithForm from "../components/PopupWithForm.js";
-import UserInfo from "../components/UserInfo.js";
+import "./pages/index.css"
+import Card from "./java-script/components/Card.js";
+import FormValidator from "./java-script/components/FormValidator.js";
+import Section from "./java-script/components/Section.js";
+import Popup from "./java-script/components/Popup.js";
+import PopupWithImage from "./java-script/components/PopupWithImage.js";
+import PopupWithForm from "./java-script/components/PopupWithForm.js";
+import UserInfo from "./java-script/components/UserInfo.js";
 import {
   openEditProfileFormBtn,
   openAddCardFromBtn,
@@ -14,8 +15,7 @@ import {
   editForm,
   postForm,
   settings,
-} from "../utils/consts.js";
-
+} from "./java-script/utils/consts.js";
 
 
 
