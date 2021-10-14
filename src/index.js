@@ -1,34 +1,43 @@
 import "./pages/index.css"
-import Card from "./java-script/components/Card.js";
-import FormValidator from "./java-script/components/FormValidator.js";
-import Section from "./java-script/components/Section.js";
-import Popup from "./java-script/components/Popup.js";
-import PopupWithImage from "./java-script/components/PopupWithImage.js";
-import PopupWithForm from "./java-script/components/PopupWithForm.js";
-import UserInfo from "./java-script/components/UserInfo.js";
+import Card from "./components/Card.js";
+import FormValidator from "./components/FormValidator.js";
+import Section from "./components/Section.js";
+import Popup from "./components/Popup.js";
+import PopupWithImage from "./components/PopupWithImage.js";
+import PopupWithForm from "./components/PopupWithForm.js";
+import UserInfo from "./components/UserInfo.js";
 import {
-  openEditProfileFormBtn,
-  openAddCardFromBtn,
-  userNameInput,
-  userAboutInput,
+  postsContainer,
   initialCards,
-  editForm,
-  postForm,
   settings,
-} from "./java-script/utils/consts.js";
+} from "./utils/consts.js";
 
+//declarings consts of the dom elements that in index.html
+
+
+
+const editForm = document.querySelector("#form__profile");
+const postForm = document.querySelector("#form__post");
+const openEditProfileFormBtn = document.querySelector(
+  ".profile__info-button"
+);
+const openAddCardFromBtn = document.querySelector(
+  ".profile__plus-button"
+);
+const userNameInput = document.querySelector("#name");
+const userAboutInput = document.querySelector("#about");
 
 
 
 // declaring the the proper popup class.
 // the .open() method of the class will open a popup -
 // - that will be generated from the card data.
-// the method will be added via a hendler -
+// the method will be added via a handler -
 // - for each card that will be renderd to the page.
 
 const openPicturePopup = new PopupWithImage("#picture");
 openPicturePopup.setEventListeners();
-const openPicturePopupHendler = (name, link) => {
+const openPicturePopupHandler = (name, link) => {
   openPicturePopup.open(name, link);
 };
 
@@ -44,13 +53,13 @@ const renderedInitialCards = new Section(
     items: initialCards,
     renderer: (cardData) => {
       const postCard = new Card(cardData, "#card", {
-        handleCardClick: openPicturePopupHendler,
+        handleCardClick: openPicturePopupHandler,
       });
       const cardCreated = postCard.createCard();
       renderedInitialCards.addItem(cardCreated);
     },
   },
-  ".post-container"
+  postsContainer
 );
 
 
@@ -73,7 +82,7 @@ const renderedUserInfo = new UserInfo({
 // a handler that will add a card.
 // the card will be generated -
 // - from the data that in the input fields of the form.
-// - the hendler is attached to the form as a hendler -
+// - the handler is attached to the form as a handler -
 // - of a "submmit" event.
 
 const submitAddCardForm = (cardDataArray) => {
@@ -82,7 +91,7 @@ const submitAddCardForm = (cardDataArray) => {
       items: [cardDataArray],
       renderer: (cardData) => {
         const postCard = new Card(cardData, "#card", {
-          handleCardClick: openPicturePopupHendler,
+          handleCardClick: openPicturePopupHandler,
         });
         const cardCreated = postCard.createCard();
         renderedFormCard.addItem(cardCreated);
@@ -102,7 +111,7 @@ const submitAddCardForm = (cardDataArray) => {
 // a handler that renders the data from the form -
 // - to the page via UserInfo class method.
 
-export const submitProfileForm = () => {
+const submitProfileForm = () => {
   renderedUserInfo.setUserInfo();
 };
 
@@ -114,10 +123,10 @@ export const submitProfileForm = () => {
 // declaring the the proper popup class and setting thier eventlisters
 
 
-const popupEditProfile = new PopupWithForm("#form", submitProfileForm);
+const popupEditProfile = new PopupWithForm("#edit-profile__popup", submitProfileForm);
 popupEditProfile.setEventListeners();
 
-const popupAddCard = new PopupWithForm("#post", submitAddCardForm);
+const popupAddCard = new PopupWithForm("#add-post__popup", submitAddCardForm);
 popupAddCard.setEventListeners();
 
 
@@ -136,10 +145,10 @@ postFormValidator.enableValidation();
 // attaching event listenrs to buttons og the page
 
 openEditProfileFormBtn.addEventListener("click", function () {
+  const userCurrentData = renderedUserInfo.getUserInfo();
+  userNameInput.value = userCurrentData.fullname;
+  userAboutInput.value = userCurrentData.about;
   popupEditProfile.open();
-  const UserCurrentData = renderedUserInfo.getUserInfo();
-  userNameInput.value = UserCurrentData.fullname;
-  userAboutInput.value = UserCurrentData.about;
 });
 
 openAddCardFromBtn.addEventListener("click", function () {

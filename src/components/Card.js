@@ -1,7 +1,7 @@
 export default class Card {
-  constructor(cardData, templateSelector, { handleCardClick }) {
-    this._cardTitle = cardData.name;
-    this._cardUrl = cardData.link;
+  constructor({name, link}, templateSelector, { handleCardClick }) {
+    this._cardTitle = name;
+    this._cardUrl = link;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
   }
@@ -51,5 +51,6 @@ export default class Card {
 
   _handleDeletePost() {
     this._element.remove();
+    this._element = null;
   }
 }

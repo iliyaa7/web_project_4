@@ -2,8 +2,7 @@ export default class UserInfo {
   constructor({ userNameSelector, userAboutSelector }) {
     this._userNameSelector = document.querySelector(userNameSelector);
     this._userAboutSelector = document.querySelector(userAboutSelector);
-    this._containerSelector = document.querySelector("profile");
-    this._popup = document.querySelector("#form");
+    this._popup = document.querySelector("#edit-profile__popup");
   }
 
   getUserInfo() {

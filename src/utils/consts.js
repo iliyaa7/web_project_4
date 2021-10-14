@@ -1,13 +1,5 @@
 
-
-export const openEditProfileFormBtn = document.querySelector(
-  ".profile__info-button"
-);
-export const openAddCardFromBtn = document.querySelector(
-  ".profile__plus-button"
-);
-export const userNameInput = document.querySelector("#name");
-export const userAboutInput = document.querySelector("#about");
+export const postsContainer = ".post-container"
 export const initialCards = [
   {
     name: "Yosemite Valley",
@@ -34,8 +26,7 @@ export const initialCards = [
     link: "https://code.s3.yandex.net/web-code/lago.jpg",
   },
 ];
-export const editForm = document.querySelector("#form__profile");
-export const postForm = document.querySelector("#form__post");
+
 export const settings = {
   inputSelector: ".popup__form-input",
   submitButtonSelector: ".popup__save-button",
@@ -44,8 +35,7 @@ export const settings = {
   errorClass: "popup__form-input-error_active",
 };
 
-//setting images to the html page -
-// - via the import that was made at the top of the page
+
 
 
 
