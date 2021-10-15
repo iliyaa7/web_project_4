@@ -10,7 +10,6 @@ import { postsContainer, initialCards, settings } from "./utils/consts.js";
 //declarings consts of the dom elements that in index.html
 
 const editForm = document.querySelector("#form__profile");
-const userDataInputList = editForm.querySelectorAll(".popup__form-input");
 const postForm = document.querySelector("#form__post");
 const openEditProfileFormBtn = document.querySelector(".profile__info-button");
 const openAddCardFromBtn = document.querySelector(".profile__plus-button");
@@ -70,8 +69,8 @@ const renderedUserInfo = new UserInfo({
 // a handler that renders the data from the form -
 // - to the page via UserInfo class method.
 
-const submitProfileForm = () => {
-  renderedUserInfo.setUserInfo(userDataInputList);
+const submitProfileForm = (newUserData) => {
+  renderedUserInfo.setUserInfo(newUserData);
 };
 
 // declaring the the proper popup class and setting thier eventlisters
