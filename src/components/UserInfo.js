@@ -2,7 +2,6 @@ export default class UserInfo {
   constructor({ userNameSelector, userAboutSelector }) {
     this._userNameSelector = document.querySelector(userNameSelector);
     this._userAboutSelector = document.querySelector(userAboutSelector);
-    this._popup = document.querySelector("#edit-profile__popup");
   }
 
   getUserInfo() {
@@ -12,8 +11,8 @@ export default class UserInfo {
     return this._formValues;
   }
 
-  setUserInfo() {
-    this._inputList = this._popup.querySelectorAll(".popup__form-input");
+  setUserInfo(newUserData) {
+    this._inputList = newUserData;
     this._formValues = {};
     this._inputList.forEach((input) => {
       this._formValues[input.name] = input.value;

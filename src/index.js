@@ -2,7 +2,6 @@ import "./pages/index.css"
 import Card from "./components/Card.js";
 import FormValidator from "./components/FormValidator.js";
 import Section from "./components/Section.js";
-import Popup from "./components/Popup.js";
 import PopupWithImage from "./components/PopupWithImage.js";
 import PopupWithForm from "./components/PopupWithForm.js";
 import UserInfo from "./components/UserInfo.js";
@@ -17,6 +16,7 @@ import {
 
 
 const editForm = document.querySelector("#form__profile");
+const userDataInputList = editForm.querySelectorAll(".popup__form-input")
 const postForm = document.querySelector("#form__post");
 const openEditProfileFormBtn = document.querySelector(
   ".profile__info-button"
@@ -42,28 +42,35 @@ const openPicturePopupHandler = (name, link) => {
 };
 
 
+// a function generate a card via the Card class - 
+// - with the help of the Section class method that is declared bellow
+
+const cardRenderer = (cardData, cardTamplateSelector, { handleCardClick }) => {
+  const postCard = new Card(cardData, cardTamplateSelector, {
+    handleCardClick,
+  });
+  const cardCreated = postCard.createCard();
+  cardSection.addItem(cardCreated);
+}
 
 
+//declaring an instance of section class for rendering cards to the dom
 
-
-// rendering the initial cards of the page
-
-const renderedInitialCards = new Section(
+const cardSection = new Section(
   {
     items: initialCards,
     renderer: (cardData) => {
-      const postCard = new Card(cardData, "#card", {
-        handleCardClick: openPicturePopupHandler,
-      });
-      const cardCreated = postCard.createCard();
-      renderedInitialCards.addItem(cardCreated);
-    },
+      cardRenderer(cardData, "#card", { handleCardClick: openPicturePopupHandler });
+    } 
   },
   postsContainer
 );
 
 
-renderedInitialCards.renderItems();
+
+// rendering the initial cards of the page
+
+cardSection.renderItems();
 
 
 // declaring a UserInfo class that can show the current user data -
@@ -77,45 +84,12 @@ const renderedUserInfo = new UserInfo({
 
 
 
-
-
-// a handler that will add a card.
-// the card will be generated -
-// - from the data that in the input fields of the form.
-// - the handler is attached to the form as a handler -
-// - of a "submmit" event.
-
-const submitAddCardForm = (cardDataArray) => {
-  const renderedFormCard = new Section(
-    {
-      items: [cardDataArray],
-      renderer: (cardData) => {
-        const postCard = new Card(cardData, "#card", {
-          handleCardClick: openPicturePopupHandler,
-        });
-        const cardCreated = postCard.createCard();
-        renderedFormCard.addItem(cardCreated);
-      },
-    },
-    ".post-container"
-  );
-  renderedFormCard.renderItems();
-};
-
-
-
-
-
-
-
 // a handler that renders the data from the form -
 // - to the page via UserInfo class method.
 
 const submitProfileForm = () => {
-  renderedUserInfo.setUserInfo();
+  renderedUserInfo.setUserInfo(userDataInputList);
 };
-
-
 
 
 
@@ -126,7 +100,9 @@ const submitProfileForm = () => {
 const popupEditProfile = new PopupWithForm("#edit-profile__popup", submitProfileForm);
 popupEditProfile.setEventListeners();
 
-const popupAddCard = new PopupWithForm("#add-post__popup", submitAddCardForm);
+const popupAddCard = new PopupWithForm("#add-post__popup", (cardData)=>{
+  cardRenderer(cardData, "#card", { handleCardClick: openPicturePopupHandler });
+});
 popupAddCard.setEventListeners();
 
 
@@ -138,7 +114,6 @@ const postFormValidator = new FormValidator(settings, postForm);
 
 editFormValidator.enableValidation();
 postFormValidator.enableValidation();
-
 
 
 
