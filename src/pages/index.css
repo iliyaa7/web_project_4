@@ -39,7 +39,9 @@
 @import url(../blocks/post/__delete-button/post__delete-button.css);
 @import url(../blocks/post/__bottom-container/post__bottom-container.css);
 @import url(../blocks/post/__heading/post__heading.css);
+@import url(../blocks/post/__like-container/post__like-container.css);
 @import url(../blocks/post/__button/post__button.css);
 @import url(../blocks/post/__button/_active/post__button_active.css);
+@import url(../blocks/post/__like-counter/post__like-counter.css);
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copyright/footer__copyright.css);

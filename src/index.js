@@ -5,7 +5,8 @@ import Section from "./components/Section.js";
 import PopupWithImage from "./components/PopupWithImage.js";
 import PopupWithForm from "./components/PopupWithForm.js";
 import UserInfo from "./components/UserInfo.js";
-import { postsContainer, initialCards, settings } from "./utils/consts.js";
+import { postsContainer, settings } from "./utils/consts.js";
+import { Api, } from "./components/Api.js"
 
 //declarings consts of the dom elements that in index.html
 
@@ -29,6 +30,8 @@ const openPicturePopupHandler = (name, link) => {
   openPicturePopup.open(name, link);
 };
 
+
+
 // a function generate a card via the Card class -
 // - with the help of the Section class method that is declared bellow
 
@@ -40,11 +43,12 @@ const cardRenderer = (cardData, cardTamplateSelector, { handleCardClick }) => {
   cardSection.addItem(cardCreated);
 };
 
-//declaring an instance of section class for rendering cards to the dom
+
+
+//declaring an instance of Section class for rendering cards to the dom
 
 const cardSection = new Section(
   {
-    items: initialCards,
     renderer: (cardData) => {
       cardRenderer(cardData, "#card", {
         handleCardClick: openPicturePopupHandler,
@@ -54,9 +58,33 @@ const cardSection = new Section(
   postsContainer
 );
 
-// rendering the initial cards of the page
 
-cardSection.renderItems();
+
+
+//declaring an instance of Api class for requesting or editing data
+
+const api = new Api({
+  baseUrl: "https://around.nomoreparties.co/v1/group-12",
+    headers: {
+      authorization: "fd1068ae-504b-49a0-9d62-632d18414be1",
+      "Content-Type": "application/json",
+    },
+});
+
+
+
+
+//using the api method to recive the initial cards data
+//then passing it to the method of the section class
+//to render the initial cards
+
+api.getInitialCards().then(res =>{
+  cardSection.renderItems(res);
+});
+
+
+
+
 
 // declaring a UserInfo class that can show the current user data -
 // - and render the data from the inpt fields to the page via its methods.
@@ -66,12 +94,28 @@ const renderedUserInfo = new UserInfo({
   userAboutSelector: ".profile__subtitle",
 });
 
+
+
+
+//using the instance of the Api class to get the current user data
+//then passing it to the method of the UserInfo class
+//to render the current user data
+
+api.getUserInfo().then((res) => renderedUserInfo.setUserInfo(res));
+
+
+
 // a handler that renders the data from the form -
 // - to the page via UserInfo class method.
+//and sends the data to the server.
 
 const submitProfileForm = (newUserData) => {
+  api.editUserInfo(newUserData)
   renderedUserInfo.setUserInfo(newUserData);
 };
+
+
+
 
 // declaring the the proper popup class and setting thier eventlisters
 
@@ -82,22 +126,30 @@ const popupEditProfile = new PopupWithForm(
 popupEditProfile.setEventListeners();
 
 const popupAddCard = new PopupWithForm("#add-post__popup", (cardData) => {
+  api.addPostCard(cardData).then((res) => console.log(res));
   cardRenderer(cardData, "#card", { handleCardClick: openPicturePopupHandler });
 });
 popupAddCard.setEventListeners();
 
+
+
+
 // form valiadation:
+
 const editFormValidator = new FormValidator(settings, editForm);
 const postFormValidator = new FormValidator(settings, postForm);
 
 editFormValidator.enableValidation();
 postFormValidator.enableValidation();
 
+
+
+
 // attaching event listenrs to buttons og the page
 
 openEditProfileFormBtn.addEventListener("click", function () {
   const userCurrentData = renderedUserInfo.getUserInfo();
-  userNameInput.value = userCurrentData.fullname;
+  userNameInput.value = userCurrentData.name;
   userAboutInput.value = userCurrentData.about;
   popupEditProfile.open();
 });
@@ -105,3 +157,4 @@ openEditProfileFormBtn.addEventListener("click", function () {
 openAddCardFromBtn.addEventListener("click", function () {
   popupAddCard.open();
 });
+

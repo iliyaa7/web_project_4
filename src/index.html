@@ -12,7 +12,7 @@
     <div class="popup__container">
       <form action="#" class="popup__form" id="form__profile" name="formProfile" novalidate>
         <h2 class="popup__form-heading">Edit profile</h2>
-        <input type="text" name="fullName" class="popup__form-input" placeholder="Name" id="name" value="Jacques Cousteau" minlength="2" maxlength="40" required>
+        <input type="text" name="name" class="popup__form-input" placeholder="Name" id="name" value="Jacques Cousteau" minlength="2" maxlength="40" required>
         <span class="popup__form-input-error" id="name-error"></span>
         <input type="text" name="about" class="popup__form-input" placeholder="About me" id="about" value="Explorer" minlength="2" maxlength="200" required>
         <span class="popup__form-input-error" id="about-error"></span>
@@ -87,7 +87,10 @@
       </button>
       <div class="post__bottom-container">
         <h2 class="post__heading"></h2>
-        <button type="button" class="post__button"></button>
+        <div class="post__like-container">
+          <button type="button" class="post__button"></button>
+          <p class="post__like-counter">1</p>
+        </div>
       </div>
     </div>
   </template>
