@@ -1,9 +1,13 @@
 export default class Card {
-  constructor({name, link}, templateSelector, { handleCardClick }) {
+  constructor({name, link, likes, _id}, templateSelector, { handleCardClick }, { handleLikeClick }) {
     this._cardTitle = name;
     this._cardUrl = link;
+    this._like = likes;
+    this._likes = likes.length;
+    this._cardId = _id;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
+    this._handleLikeClick = handleLikeClick;
   }
 
   _getTemplate() {
@@ -21,6 +25,7 @@ export default class Card {
     this._element.querySelector(".post__image").alt =
       "A photo of " + this._cardTitle;
     this._element.querySelector(".post__image").src = this._cardUrl;
+    this._element.querySelector(".post__like-counter").textContent = this._likes  > 0 ?  this._likes : "";
     this._setEventListeners();
     return this._element;
   }
@@ -47,6 +52,9 @@ export default class Card {
     this._element
       .querySelector(".post__button")
       .classList.toggle("post__button_active");
+      this._element
+      .querySelector(".post__button")
+      .classList.contains("post__button_active") ? this._handleLikeClick(true, this._cardId, this._element) : this._handleLikeClick(false, this._cardId, this._element);
   }
 
   _handleDeletePost() {

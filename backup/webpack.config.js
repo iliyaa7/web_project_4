@@ -1,35 +1,36 @@
-// webpack.config.js
-const path = require("path");
+const path = require('path'); // connect path to webpack config
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-  mode: 'production' , //development
   devtool: 'inline-source-map',
   entry: {
-    main: path.resolve(__dirname,"src/index.js")
+    main: './src/index.js'
   },
   output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "main.js",
-    publicPath: "",
-    clean: true
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'main.js',
+    publicPath: ''
   },
   target: ['web', 'es5'],
   stats: { children: true },
-  mode: "development",
+  mode: 'development',
   devServer: {
-    static: path.resolve(__dirname, "dist/"),
+    static: path.resolve(__dirname, './dist'),
     compress: true,
-    port: 8081,
+    port: 3000,
     open: true
   },
   module: {
-    rules: [
+    rules: [ // this is an array of rules
+        // add an object containing rules for Babel to it
       {
+        // a regular expression that searches for all js files
         test: /\.js$/,
+        // all files must be processed by babel-loader
         loader: "babel-loader",
+        // exclude the node_modules folder, we don't need to process files in it
         exclude: "/node_modules/"
       },
       {
@@ -37,13 +38,14 @@ module.exports = {
         use: [
           MiniCssExtractPlugin.loader,
           {
-            loader: "css-loader"
+            loader: "css-loader",
+            options: { importLoaders: 1 }
           },
-          // add postcss-loader
           "postcss-loader"
-        ],
+        ]
       },
       {
+        // add the rule for processing files
         test: /\.(png|svg|jpg|gif|woff(2)?|eot|ttf|otf)$/,
         type: "asset/resource"
       },
@@ -54,6 +56,6 @@ module.exports = {
       template: "./src/index.html"
     }),
     new CleanWebpackPlugin(),
-    new MiniCssExtractPlugin()
-  ]
+    new MiniCssExtractPlugin(),
+  ],
 }
