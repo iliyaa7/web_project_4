@@ -82,7 +82,7 @@ const likeCardPatch = (likeToggle, cardId, thisCard) => {
   } else if(!likeToggle) {
     api.removeLike(cardId).then((res) => {
       thisCard.querySelector(".post__like-counter").textContent =
-        res.likes.length;
+        res.likes.length > 0 ? res.likes.length : "";
     });
   }
 
