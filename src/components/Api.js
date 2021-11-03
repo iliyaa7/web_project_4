@@ -52,4 +52,19 @@ export class Api {
       headers: this._headers,
    });
   }
+
+  deleteCard(cardId) {
+    return fetchFunction(`${this._baseUrl}/cards/${cardId}`, {
+      method: "DELETE",
+      headers: this._headers,
+   });
+  }
+
+  editAvatar(data) {
+    return fetchFunction(`${this._baseUrl}/users/me/avatar`, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify(data)
+   });
+  }
 }

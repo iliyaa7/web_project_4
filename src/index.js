@@ -7,15 +7,19 @@ import PopupWithForm from "./components/PopupWithForm.js";
 import UserInfo from "./components/UserInfo.js";
 import { postsContainer, settings } from "./utils/consts.js";
 import { Api, } from "./components/Api.js"
+import PopupSubmit from "./components/PopupSubmit.js";
 
 //declarings consts of the dom elements that in index.html
 
 const editForm = document.querySelector("#form__profile");
 const postForm = document.querySelector("#form__post");
+const avatarForm = document.querySelector("#form__avatar");
 const openEditProfileFormBtn = document.querySelector(".profile__info-button");
 const openAddCardFromBtn = document.querySelector(".profile__plus-button");
+const openEditAvatarBtn =  document.querySelector(".profile__image-button");
 const userNameInput = document.querySelector("#name");
 const userAboutInput = document.querySelector("#about");
+
 
 
 //declaring an instance of Api class for requesting or editing data
@@ -39,6 +43,7 @@ const api = new Api({
 const renderedUserInfo = new UserInfo({
   userNameSelector: ".profile__title",
   userAboutSelector: ".profile__subtitle",
+  userAvatarSelector: ".profile__image"
 });
 
 //using the instance of the Api class to get the current user data
@@ -89,6 +94,22 @@ const likeCardPatch = (likeToggle, cardId, thisCard) => {
 };
 
 
+//delete post handler
+const deletePostHandler = (cardId, cardElement) => {
+  document.querySelector("#delete-post__popup").classList.add("popup_opened")
+  const popupDeleteCard = new PopupSubmit("#delete-post__popup", cardId, cardElement, (cardId, cardElement) => {
+    cardElement.remove();
+    cardElement = null;
+    api.deleteCard(cardId).then((res) => console.log(res));
+  });
+  popupDeleteCard.setEventListeners();
+}
+
+
+
+
+
+
 
 
 // a function that generate a card via the Card class -
@@ -98,19 +119,27 @@ const cardRenderer = (
   cardData,
   cardTamplateSelector,
   { handleCardClick },
-  { handleLikeClick }
+  { handleLikeClick },
+  { handleDeletePost }
 ) => {
   const postCard = new Card(
     cardData,
     cardTamplateSelector,
     { handleCardClick },
-    { handleLikeClick }
+    { handleLikeClick },
+    { handleDeletePost }
   );
   const cardCreated = postCard.createCard();
   //checking if liked a card among the rendered initial cards, then setting thier like button active
-  if (cardData.likes.some((entry) => entry._id == renderedUserInfo.id)) {
-    cardCreated.querySelector(".post__button").classList.add("post__button_active");
+    if (cardData.likes.some((entry) => entry._id == renderedUserInfo.id)) {
+      cardCreated.querySelector(".post__button").classList.add("post__button_active");
   }
+  //checking if the initial cards don't have my id to disable there delete button
+    if (cardData.owner._id !== renderedUserInfo.id) {
+      cardCreated.querySelector(".post__delete-button").setAttribute("disabled", true);
+      cardCreated.querySelector(".post__delete-button").classList.add("post__delete-button_hiden")
+  }
+
   cardSection.addItem(cardCreated);
 
 };
@@ -126,10 +155,13 @@ const cardSection = new Section(
         cardData,
         "#card",
         {
-          handleCardClick: openPicturePopupHandler,
+          handleCardClick: openPicturePopupHandler
         },
         {
           handleLikeClick: likeCardPatch
+        },
+        {
+          handleDeletePost: deletePostHandler
         }
       );
     },
@@ -144,9 +176,11 @@ const cardSection = new Section(
 //to render the initial cards
 
 api.getInitialCards().then(res => {
-  console.log(res)
+  console.log(res);
   cardSection.renderItems(res);
 });
+
+
 
 
 
@@ -166,7 +200,10 @@ const submitProfileForm = (newUserData) => {
 };
 
 
-
+const submitAvatarForm = (newUserData) => {
+  api.editAvatar(newUserData)
+  renderedUserInfo.updateUserAvatar(newUserData);
+};
 
 // declaring the the proper popup class and setting thier eventlisters
 
@@ -176,11 +213,35 @@ const popupEditProfile = new PopupWithForm(
 );
 popupEditProfile.setEventListeners();
 
+
+const popupEditAvatar = new PopupWithForm(
+  "#edit-profile-picture__popup",
+  submitAvatarForm
+);
+popupEditAvatar.setEventListeners();
+
+
+
 const popupAddCard = new PopupWithForm("#add-post__popup", (cardData) => {
-  api.addPostCard(cardData).then((res) => console.log(res));
-  cardRenderer(cardData, "#card", { handleCardClick: openPicturePopupHandler });
+  api.addPostCard(cardData).then((res) => {
+    cardRenderer(
+      res,
+      "#card",
+      {
+        handleCardClick: openPicturePopupHandler
+      },
+      {
+        handleLikeClick: likeCardPatch
+      },
+      {
+        handleDeletePost: deletePostHandler
+      }
+    );
+  });
+
 });
 popupAddCard.setEventListeners();
+
 
 
 
@@ -189,10 +250,11 @@ popupAddCard.setEventListeners();
 
 const editFormValidator = new FormValidator(settings, editForm);
 const postFormValidator = new FormValidator(settings, postForm);
+const avatarFormValidator = new FormValidator(settings, avatarForm);
 
 editFormValidator.enableValidation();
 postFormValidator.enableValidation();
-
+avatarFormValidator.enableValidation();
 
 
 
@@ -209,6 +271,8 @@ openAddCardFromBtn.addEventListener("click", function () {
   popupAddCard.open();
 });
 
-
+openEditAvatarBtn.addEventListener("click", function () {
+  popupEditAvatar.open();
+});
 
 

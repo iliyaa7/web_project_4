@@ -35,6 +35,18 @@
     </div>
   </div>
 
+  <div class="popup" id="edit-profile-picture__popup">
+    <button type="button" class="popup__close-button" id="close__post"></button>
+    <div class="popup__container">
+      <form action="#" class="popup__form" id="form__avatar" name="form-avatar">
+        <h2 class="popup__form-heading">Change profile picture</h2>
+        <input type="url" name="avatar" class="popup__form-input" placeholder="Image link" id="link" value="" required>
+        <span class="popup__form-input-error" id="link-error"></span>
+        <button type="submit" class="popup__save-button">Save</button>
+      </form>
+    </div>
+  </div>
+
 
   <div class="popup" id="picture">
     <div class="popup__grid">
@@ -46,6 +58,18 @@
     </div>
   </div>
 
+  <div class="popup" id="delete-post__popup">
+    <button type="button" class="popup__close-button" id="close__post"></button>
+    <div class="popup__container">
+      <form action="#" class="popup__form" id="form__post" name="form-post">
+        <h2 class="popup__form-heading">Are you sure?</h2>
+        <button type="submit" class="popup__save-button">Yes</button>
+      </form>
+    </div>
+  </div>
+
+
+
   <div class="page">
 
     <header class="header">
@@ -54,7 +78,12 @@
 
     <main class="content">
       <section class="profile">
-        <img src="<%= require('./images/profile-photo.png')%>" id="profile-image"  alt="Your profile photo" class="profile__image">
+        <div class="profile__images-container">
+          <img src="<%= require('./images/profile-photo.png')%>" id="profile-image"  alt="Your profile photo" class="profile__image">
+          <button type="button" class="profile__image-button">
+            <img src="<%= require('./images/batton-prof_edit.svg')%>" alt="A photo of an edit button" class="profile__image-overlay">
+          </button>
+        </div>
         <div class="profile__rows">
           <div class="profile__top-row">
             <h1 class="profile__title">Iliya Gomon</h1>
