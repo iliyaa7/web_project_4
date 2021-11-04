@@ -11,10 +11,8 @@
   display: none;
 }
 
-.profile__image-button:hover {
-  display: flex;
-}
 
-.profile__image:hover {
-  opacity: .2;
+
+.profile__image-button:hover {
+  display:flex;
 }

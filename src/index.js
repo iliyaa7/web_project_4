@@ -53,6 +53,7 @@ const renderedUserInfo = new UserInfo({
 
 api.getUserInfo().then((res) => {
   renderedUserInfo.setUserInfo(res);
+  renderedUserInfo.updateUserAvatar(res);
 });
 
 
@@ -92,17 +93,20 @@ const likeCardPatch = (likeToggle, cardId, thisCard) => {
   }
 
 };
+//delete click handlers
+
+const deletePostHendler = (cardId, cardElement) => {
+  cardElement.remove();
+  cardElement = null;
+  api.deleteCard(cardId);
+}
 
 
-//delete post handler
-const deletePostHandler = (cardId, cardElement) => {
-  document.querySelector("#delete-post__popup").classList.add("popup_opened")
-  const popupDeleteCard = new PopupSubmit("#delete-post__popup", cardId, cardElement, (cardId, cardElement) => {
-    cardElement.remove();
-    cardElement = null;
-    api.deleteCard(cardId).then((res) => console.log(res));
-  });
+
+const deleteCLickHandler = (cardId, cardElement) => {
+  const popupDeleteCard = new PopupSubmit("#delete-post__popup", cardId, cardElement, deletePostHendler);
   popupDeleteCard.setEventListeners();
+  popupDeleteCard.open();
 }
 
 
@@ -120,14 +124,14 @@ const cardRenderer = (
   cardTamplateSelector,
   { handleCardClick },
   { handleLikeClick },
-  { handleDeletePost }
+  { handleDeleteClick }
 ) => {
   const postCard = new Card(
     cardData,
     cardTamplateSelector,
     { handleCardClick },
     { handleLikeClick },
-    { handleDeletePost }
+    { handleDeleteClick }
   );
   const cardCreated = postCard.createCard();
   //checking if liked a card among the rendered initial cards, then setting thier like button active
@@ -161,7 +165,7 @@ const cardSection = new Section(
           handleLikeClick: likeCardPatch
         },
         {
-          handleDeletePost: deletePostHandler
+          handleDeleteClick: deleteCLickHandler
         }
       );
     },
@@ -197,12 +201,14 @@ api.getInitialCards().then(res => {
 const submitProfileForm = (newUserData) => {
   api.editUserInfo(newUserData)
   renderedUserInfo.setUserInfo(newUserData);
+  popupEditProfile.close();
 };
 
 
 const submitAvatarForm = (newUserData) => {
   api.editAvatar(newUserData)
   renderedUserInfo.updateUserAvatar(newUserData);
+  popupEditAvatar.close();
 };
 
 // declaring the the proper popup class and setting thier eventlisters
@@ -234,11 +240,11 @@ const popupAddCard = new PopupWithForm("#add-post__popup", (cardData) => {
         handleLikeClick: likeCardPatch
       },
       {
-        handleDeletePost: deletePostHandler
+        handleDeleteClick: deleteCLickHandler
       }
     );
-  });
-
+    popupAddCard.close();
+  })
 });
 popupAddCard.setEventListeners();
 

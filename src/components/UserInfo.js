@@ -18,7 +18,6 @@ export default class UserInfo {
     this._userNameCurrentData.textContent = name;
     this._userAboutCurrentData.textContent = about;
     this.id = _id;
-    this._userAvatar.src = avatar;
   }
 
   updateUserAvatar({ avatar }) {

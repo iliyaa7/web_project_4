@@ -1,5 +1,5 @@
 export default class Card {
-  constructor({name, link, likes, _id}, templateSelector, { handleCardClick }, { handleLikeClick }, { handleDeletePost }) {
+  constructor({name, link, likes, _id}, templateSelector, { handleCardClick }, { handleLikeClick }, { handleDeleteClick }) {
     this._cardTitle = name;
     this._cardUrl = link;
     this._like = likes;
@@ -8,7 +8,7 @@ export default class Card {
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
     this._handleLikeClick = handleLikeClick;
-    this._handleDeletePost = handleDeletePost;
+    this._handleDeleteClick = handleDeleteClick;
   }
 
   _getTemplate() {
@@ -35,7 +35,7 @@ export default class Card {
     this._element
       .querySelector(".post__delete-button")
       .addEventListener("click", () => {
-        this._handleDeletePost(this._cardId, this._element);
+        this._handleDeleteClick(this._cardId, this._element);
       });
     this._element
       .querySelector(".post__button")

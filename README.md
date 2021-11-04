@@ -11,4 +11,4 @@ After that i refactored the code according to the OOP metodolgy.
 In the near future I am planning to make the buttons act smothly (some buttons are pressable only on thier image) and correcting closing form issue (a little bug accurs if you try to close the popup via overlay. the popup closes even if only the release of the click hepans on the overlay)
 And adding the resetFormValidation function that will reset the fields and errors after the popup is closed/
 
-git hub pages link - https://iliyaa7.github.io/web_project_4/
+git hub pages link - https://iliyaa7.github.io/web_project_4
