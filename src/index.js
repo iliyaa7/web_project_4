@@ -16,7 +16,7 @@ const postForm = document.querySelector("#form__post");
 const avatarForm = document.querySelector("#form__avatar");
 const openEditProfileFormBtn = document.querySelector(".profile__info-button");
 const openAddCardFromBtn = document.querySelector(".profile__plus-button");
-const openEditAvatarBtn =  document.querySelector(".profile__image-button");
+const openEditAvatarBtn = document.querySelector(".profile__image-button");
 const userNameInput = document.querySelector("#name");
 const userAboutInput = document.querySelector("#about");
 
@@ -85,7 +85,7 @@ const likeCardPatch = (likeToggle, cardId, thisCard) => {
       thisCard.querySelector(".post__like-counter").textContent =
         res.likes.length;
     });
-  } else if(!likeToggle) {
+  } else if (!likeToggle) {
     api.removeLike(cardId).then((res) => {
       thisCard.querySelector(".post__like-counter").textContent =
         res.likes.length > 0 ? res.likes.length : "";
@@ -93,21 +93,25 @@ const likeCardPatch = (likeToggle, cardId, thisCard) => {
   }
 
 };
+const deletePostHendler = (cardId, cardElement) => {
+  api.deleteCard(cardId).then((res) => {
+    console.log(res)
+    cardElement.remove();
+    cardElement = null;
+  })
+}
+
+const popupDeleteCard = new PopupSubmit("#delete-post__popup", deletePostHendler);
+popupDeleteCard.setEventListeners();
+
 //delete click handlers
 
-const deletePostHendler = (cardId, cardElement) => {
-  cardElement.remove();
-  cardElement = null;
-  api.deleteCard(cardId);
-}
 
 
 
-const deleteCLickHandler = (cardId, cardElement) => {
-  const popupDeleteCard = new PopupSubmit("#delete-post__popup", cardId, cardElement, deletePostHendler);
-  popupDeleteCard.setEventListeners();
-  popupDeleteCard.open();
-}
+
+const deleteCLickHandler = (cardId, cardElement) => popupDeleteCard.open(cardId, cardElement)
+
 
 
 
@@ -135,13 +139,13 @@ const cardRenderer = (
   );
   const cardCreated = postCard.createCard();
   //checking if liked a card among the rendered initial cards, then setting thier like button active
-    if (cardData.likes.some((entry) => entry._id == renderedUserInfo.id)) {
-      cardCreated.querySelector(".post__button").classList.add("post__button_active");
+  if (cardData.likes.some((entry) => entry._id == renderedUserInfo.id)) {
+    cardCreated.querySelector(".post__button").classList.add("post__button_active");
   }
   //checking if the initial cards don't have my id to disable there delete button
-    if (cardData.owner._id !== renderedUserInfo.id) {
-      cardCreated.querySelector(".post__delete-button").setAttribute("disabled", true);
-      cardCreated.querySelector(".post__delete-button").classList.add("post__delete-button_hiden")
+  if (cardData.owner._id !== renderedUserInfo.id) {
+    cardCreated.querySelector(".post__delete-button").setAttribute("disabled", true);
+    cardCreated.querySelector(".post__delete-button").classList.add("post__delete-button_hiden")
   }
 
   cardSection.addItem(cardCreated);

@@ -12,9 +12,7 @@
   }
 }
 
-.profile__image:hover {
-  opacity: .2;
-}
+
 
 .profile__image:hover + .profile__image-button {
   display: flex;
