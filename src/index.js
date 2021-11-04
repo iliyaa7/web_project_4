@@ -180,7 +180,6 @@ const cardSection = new Section(
 //to render the initial cards
 
 api.getInitialCards().then(res => {
-  console.log(res);
   cardSection.renderItems(res);
 });
 
