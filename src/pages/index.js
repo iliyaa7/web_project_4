@@ -1,13 +1,13 @@
-import "./pages/index.css";
-import Card from "./components/Card.js";
-import FormValidator from "./components/FormValidator.js";
-import Section from "./components/Section.js";
-import PopupWithImage from "./components/PopupWithImage.js";
-import PopupWithForm from "./components/PopupWithForm.js";
-import UserInfo from "./components/UserInfo.js";
-import { postsContainer, settings } from "./utils/consts.js";
-import { Api, } from "./components/Api.js"
-import PopupSubmit from "./components/PopupSubmit.js";
+import "./index.css";
+import Card from "../components/Card.js";
+import FormValidator from "../components/FormValidator.js";
+import Section from "../components/Section.js";
+import PopupWithImage from "../components/PopupWithImage.js";
+import PopupWithForm from "../components/PopupWithForm.js";
+import UserInfo from "../components/UserInfo.js";
+import { postsContainer, settings } from "../utils/consts.js";
+import { Api, } from "../components/Api.js"
+import PopupSubmit from "../components/PopupSubmit.js";
 
 //declarings consts of the dom elements that in index.html
 
@@ -94,8 +94,7 @@ const likeCardPatch = (likeToggle, cardId, thisCard) => {
 
 };
 const deletePostHendler = (cardId, cardElement) => {
-  api.deleteCard(cardId).then((res) => {
-    console.log(res)
+  api.deleteCard(cardId).then(() => {
     cardElement.remove();
     cardElement = null;
   })
@@ -128,7 +127,8 @@ const cardRenderer = (
   cardTamplateSelector,
   { handleCardClick },
   { handleLikeClick },
-  { handleDeleteClick }
+  { handleDeleteClick },
+  attachItemMethod,
 ) => {
   const postCard = new Card(
     cardData,
@@ -148,7 +148,7 @@ const cardRenderer = (
     cardCreated.querySelector(".post__delete-button").classList.add("post__delete-button_hiden")
   }
 
-  cardSection.addItem(cardCreated);
+  cardSection.addItem(cardCreated, attachItemMethod);
 
 };
 
@@ -170,7 +170,7 @@ const cardSection = new Section(
         },
         {
           handleDeleteClick: deleteCLickHandler
-        }
+        },
       );
     },
   },
@@ -244,7 +244,8 @@ const popupAddCard = new PopupWithForm("#add-post__popup", (cardData) => {
       },
       {
         handleDeleteClick: deleteCLickHandler
-      }
+      },
+      "prepend"
     );
     popupAddCard.close();
   })

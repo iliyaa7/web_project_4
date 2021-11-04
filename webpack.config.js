@@ -8,7 +8,7 @@ module.exports = {
   mode: 'production' , //development
   devtool: 'inline-source-map',
   entry: {
-    main: path.resolve(__dirname,"src/index.js")
+    main: path.resolve(__dirname,"src/pages/index.js")
   },
   output: {
     path: path.resolve(__dirname, "dist"),
@@ -37,7 +37,10 @@ module.exports = {
         use: [
           MiniCssExtractPlugin.loader,
           {
-            loader: "css-loader"
+            loader: "css-loader",
+            options: {
+              importLoaders: 1
+            },
           },
           // add postcss-loader
           "postcss-loader"

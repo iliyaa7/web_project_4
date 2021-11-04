@@ -10,7 +10,6 @@ export default class PopupSubmit extends Popup {
     super.open();
     this._cardId = cardId;
     this._cardElement = cardElement;
-    console.log(this._cardId)
     this._popup.addEventListener("submit", this._submitDeleteHandler);
   }
 
@@ -20,7 +19,6 @@ export default class PopupSubmit extends Popup {
   }
 
   _submitDeleteHandler(evt)  {
-    console.log(evt.target);
     evt.preventDefault();
     this._submitFormHandler(this._cardId, this._cardElement)
     this.close();
