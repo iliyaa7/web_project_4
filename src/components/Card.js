@@ -40,21 +40,12 @@ export default class Card {
     this._element
       .querySelector(".post__button")
       .addEventListener("click", () => {
-        this._handleToggleCardLike();
+        this._handleLikeClick(this._cardId, this._element);
       });
     this._element
       .querySelector(".post__image-button")
       .addEventListener("click", () => {
         this._handleCardClick(this._cardTitle, this._cardUrl);
       });
-  }
-
-  _handleToggleCardLike() {
-    this._element
-      .querySelector(".post__button")
-      .classList.toggle("post__button_active");
-      this._element
-      .querySelector(".post__button")
-      .classList.contains("post__button_active") ? this._handleLikeClick(true, this._cardId, this._element) : this._handleLikeClick(false, this._cardId, this._element);
   }
 }

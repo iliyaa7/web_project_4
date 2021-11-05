@@ -54,6 +54,9 @@ const renderedUserInfo = new UserInfo({
 api.getUserInfo().then((res) => {
   renderedUserInfo.setUserInfo(res);
   renderedUserInfo.updateUserAvatar(res);
+})
+.catch((err) => {
+  console.log(err);
 });
 
 
@@ -79,25 +82,54 @@ const openPicturePopupHandler = (name, link) => {
 //(on the server and on the like counter of the card) triggered by a click on the button
 //the handler is using the  2 api methods
 
-const likeCardPatch = (likeToggle, cardId, thisCard) => {
-  if (likeToggle) {
-    api.addLike(cardId).then((res) => {
-      thisCard.querySelector(".post__like-counter").textContent =
-        res.likes.length;
-    });
-  } else if (!likeToggle) {
-    api.removeLike(cardId).then((res) => {
-      thisCard.querySelector(".post__like-counter").textContent =
-        res.likes.length > 0 ? res.likes.length : "";
-    });
+const likeCardPatch = (cardId, thisCard) => {
+  if (
+    !thisCard
+      .querySelector(".post__button")
+      .classList.contains("post__button_active")
+  ) {
+    api
+      .addLike(cardId)
+      .then((res) => {
+        thisCard.querySelector(".post__like-counter").textContent =
+          res.likes.length;
+        thisCard
+          .querySelector(".post__button")
+          .classList.toggle("post__button_active");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } else if (
+    thisCard
+      .querySelector(".post__button")
+      .classList.contains("post__button_active")
+  ) {
+    api
+      .removeLike(cardId)
+      .then((res) => {
+        thisCard.querySelector(".post__like-counter").textContent =
+          res.likes.length > 0 ? res.likes.length : "";
+        thisCard
+          .querySelector(".post__button")
+          .classList.toggle("post__button_active");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
-
 };
+
+
+
 const deletePostHendler = (cardId, cardElement) => {
   api.deleteCard(cardId).then(() => {
     cardElement.remove();
     cardElement = null;
   })
+  .catch((err) => {
+    console.log(err);
+  });
 }
 
 const popupDeleteCard = new PopupSubmit("#delete-post__popup", deletePostHendler);
@@ -185,6 +217,9 @@ const cardSection = new Section(
 
 api.getInitialCards().then(res => {
   cardSection.renderItems(res);
+})
+.catch((err) => {
+  console.log(err);
 });
 
 
@@ -203,6 +238,9 @@ api.getInitialCards().then(res => {
 
 const submitProfileForm = (newUserData) => {
   api.editUserInfo(newUserData)
+  .catch((err) => {
+    console.log(err);
+  });
   renderedUserInfo.setUserInfo(newUserData);
   popupEditProfile.close();
 };
@@ -210,6 +248,9 @@ const submitProfileForm = (newUserData) => {
 
 const submitAvatarForm = (newUserData) => {
   api.editAvatar(newUserData)
+  .catch((err) => {
+    console.log(err);
+  });
   renderedUserInfo.updateUserAvatar(newUserData);
   popupEditAvatar.close();
 };
@@ -249,6 +290,9 @@ const popupAddCard = new PopupWithForm("#add-post__popup", (cardData) => {
     );
     popupAddCard.close();
   })
+  .catch((err) => {
+    console.log(err);
+  });
 });
 popupAddCard.setEventListeners();
 
@@ -279,10 +323,12 @@ openEditProfileFormBtn.addEventListener("click", function () {
 
 openAddCardFromBtn.addEventListener("click", function () {
   popupAddCard.open();
+  postFormValidator.enableValidation(); 
 });
 
 openEditAvatarBtn.addEventListener("click", function () {
   popupEditAvatar.open();
+  avatarFormValidator.enableValidation();
 });
 
 

@@ -1,9 +1,7 @@
 const fetchFunction = (url,  headers) => {
   return fetch(url, headers)
       .then(res => res.ok ? res.json() : Promise.reject(`Error: ${res.status}`))
-      .catch((err) => {
-        console.log(err);
-    })
+  
 }
 
 
