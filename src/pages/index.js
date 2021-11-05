@@ -61,7 +61,6 @@ const renderedUserInfo = new UserInfo({
 
 Promise.all([api.getUserInfo(), api.getInitialCards()])
   .then((res) => {
-    console.log(res)
     renderedUserInfo.setUserInfo(res[0]);
     cardSection.renderItems(res[1]);
   })
@@ -137,16 +136,6 @@ const likeCardPatch = (cardId, thisCard) => {
 
 
 
-// declaring the PopupSubmit class that will be opened upon deleting a card
-// this popup will complete the delete procces via the delete handler
-
-const popupDeleteCard = new PopupSubmit("#delete-post__popup", deletePostHendler);
-popupDeleteCard.setEventListeners();
-
-
-
-
-
 //delete post handler
 
 const deletePostHendler = (cardId, cardElement) => {
@@ -159,6 +148,19 @@ const deletePostHendler = (cardId, cardElement) => {
     console.log(err);
   });
 }
+
+
+
+// declaring the PopupSubmit class that will be opened upon deleting a card
+// this popup will complete the delete procces via the delete handler
+
+const popupDeleteCard = new PopupSubmit("#delete-post__popup", deletePostHendler);
+popupDeleteCard.setEventListeners();
+
+
+
+
+
 
 
 
