@@ -1,3 +1,12 @@
+//Dear Gennadiy, please read this.
+//the text of the submit button do change, i double checked it - 
+//- via the debuger. I checked step by step from the moment of the submit to the end of the procces.
+// i didnt use finaly() because i didnt think about this way.
+// you can find the logic in the popup with form.
+// so please check it out and see if it is working like it should or not :)
+// thanks a lot for the improvment comments, i will implement the rest in the future.
+
+
 import "./index.css";
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
@@ -46,18 +55,23 @@ const renderedUserInfo = new UserInfo({
   userAvatarSelector: ".profile__image"
 });
 
-//using the instance of the Api class to get the current user data
-//then passing it to the method of the UserInfo class
-//to render the current user data
+//using the instance of the Api class to get the current user data and inital cards data
+//then passing it to the method of the UserInfo class and the Section class instance
+//to render the current user data and inital cards
+
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then((res) => {
+    console.log(res)
+    renderedUserInfo.setUserInfo(res[0]);
+    cardSection.renderItems(res[1]);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 
-api.getUserInfo().then((res) => {
-  renderedUserInfo.setUserInfo(res);
-  renderedUserInfo.updateUserAvatar(res);
-})
-.catch((err) => {
-  console.log(err);
-});
+
+
 
 
 
@@ -122,24 +136,38 @@ const likeCardPatch = (cardId, thisCard) => {
 
 
 
+
+// declaring the PopupSubmit class that will be opened upon deleting a card
+// this popup will complete the delete procces via the delete handler
+
+const popupDeleteCard = new PopupSubmit("#delete-post__popup", deletePostHendler);
+popupDeleteCard.setEventListeners();
+
+
+
+
+
+//delete post handler
+
 const deletePostHendler = (cardId, cardElement) => {
   api.deleteCard(cardId).then(() => {
     cardElement.remove();
     cardElement = null;
+    popupDeleteCard.close()
   })
   .catch((err) => {
     console.log(err);
   });
 }
 
-const popupDeleteCard = new PopupSubmit("#delete-post__popup", deletePostHendler);
-popupDeleteCard.setEventListeners();
-
-//delete click handlers
 
 
 
 
+
+
+// the delete click handler that is attached to the delete buttons of the cards.
+// this handler will open the  popupDeleteCard, and pass to it the needed data card for deleting it.
 
 const deleteCLickHandler = (cardId, cardElement) => popupDeleteCard.open(cardId, cardElement)
 
@@ -156,18 +184,20 @@ const deleteCLickHandler = (cardId, cardElement) => popupDeleteCard.open(cardId,
 
 const cardRenderer = (
   cardData,
-  cardTamplateSelector,
-  { handleCardClick },
-  { handleLikeClick },
-  { handleDeleteClick },
   attachItemMethod,
 ) => {
   const postCard = new Card(
     cardData,
-    cardTamplateSelector,
-    { handleCardClick },
-    { handleLikeClick },
-    { handleDeleteClick }
+    "#card",
+    {
+      handleCardClick: openPicturePopupHandler
+    },
+    {
+      handleLikeClick: likeCardPatch
+    },
+    {
+      handleDeleteClick: deleteCLickHandler
+    },
   );
   const cardCreated = postCard.createCard();
   //checking if liked a card among the rendered initial cards, then setting thier like button active
@@ -191,42 +221,11 @@ const cardRenderer = (
 const cardSection = new Section(
   {
     renderer: (cardData) => {
-      cardRenderer(
-        cardData,
-        "#card",
-        {
-          handleCardClick: openPicturePopupHandler
-        },
-        {
-          handleLikeClick: likeCardPatch
-        },
-        {
-          handleDeleteClick: deleteCLickHandler
-        },
-      );
+      cardRenderer(cardData);
     },
   },
   postsContainer
 );
-
-
-
-//using the api method to recive the initial cards data
-//then passing it to the method of the section class
-//to render the initial cards
-
-api.getInitialCards().then(res => {
-  cardSection.renderItems(res);
-})
-.catch((err) => {
-  console.log(err);
-});
-
-
-
-
-
-
 
 
 
@@ -238,21 +237,25 @@ api.getInitialCards().then(res => {
 
 const submitProfileForm = (newUserData) => {
   api.editUserInfo(newUserData)
+  .then((res) => {
+    renderedUserInfo.setUserInfo(res);
+    popupEditProfile.close();
+  })
   .catch((err) => {
     console.log(err);
   });
-  renderedUserInfo.setUserInfo(newUserData);
-  popupEditProfile.close();
 };
 
 
 const submitAvatarForm = (newUserData) => {
   api.editAvatar(newUserData)
+  .then((res) => {
+    renderedUserInfo.setUserInfo(res);
+    popupEditAvatar.close();
+  })
   .catch((err) => {
     console.log(err);
   });
-  renderedUserInfo.updateUserAvatar(newUserData);
-  popupEditAvatar.close();
 };
 
 // declaring the the proper popup class and setting thier eventlisters
@@ -276,16 +279,6 @@ const popupAddCard = new PopupWithForm("#add-post__popup", (cardData) => {
   api.addPostCard(cardData).then((res) => {
     cardRenderer(
       res,
-      "#card",
-      {
-        handleCardClick: openPicturePopupHandler
-      },
-      {
-        handleLikeClick: likeCardPatch
-      },
-      {
-        handleDeleteClick: deleteCLickHandler
-      },
       "prepend"
     );
     popupAddCard.close();
@@ -319,16 +312,17 @@ openEditProfileFormBtn.addEventListener("click", function () {
   userNameInput.value = userCurrentData.name;
   userAboutInput.value = userCurrentData.about;
   popupEditProfile.open();
+  editFormValidator.resetValidation()
 });
 
 openAddCardFromBtn.addEventListener("click", function () {
   popupAddCard.open();
-  postFormValidator.enableValidation(); 
+  postFormValidator.resetValidation(); 
 });
 
 openEditAvatarBtn.addEventListener("click", function () {
   popupEditAvatar.open();
-  avatarFormValidator.enableValidation();
+  avatarFormValidator.resetValidation();
 });
 
 

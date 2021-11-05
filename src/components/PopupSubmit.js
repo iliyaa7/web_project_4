@@ -21,10 +21,5 @@ export default class PopupSubmit extends Popup {
   _submitDeleteHandler(evt)  {
     evt.preventDefault();
     this._submitFormHandler(this._cardId, this._cardElement)
-    this.close();
-  }
-
-  setEventListeners() {
-    super.setEventListeners();
   }
 }
